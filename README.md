@@ -1,2 +1,6 @@
 # IDW-grupo-12-2025
-repositorio para la clase
+Integrantes del Equipo: 
+Maria del Cielo Donato
+Denise Cardozo
+Orlando Alvarez
+Esteban Avila
