@@ -1,0 +1,183 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #343a40;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: #007BFF;
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #28a745;
+}
+
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+section {
+    background-color: #fff;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    color: #007BFF;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+}
+
+.Obrasocial ul {
+    list-style-type: '✔️  ';
+    padding-left: 1.5rem;
+}
+
+.Obrasocial li {
+    font-size: 1.1rem;
+    padding: 0.25rem 0;
+}
+
+.médicos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.médicos>div {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    flex: 1 1 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.médicos>div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.médicos h3 {
+    color: #343a40;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.médicos p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.institucional {
+    padding-top: 0;
+}
+
+.institucional-titulo {
+    color: #007BFF;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.institucional h1{
+    text-align: center;
+}
+.institucional h5{
+    text-align: center;
+}
+hr {
+    border: none;
+    height: 1px;
+    background-color: #dee2e6;
+    margin: 3rem 0;
+}
+
+.valores-lista {
+    list-style-type: none;
+    padding: 0;
+}
+
+.valores-lista li {
+    background-color: #e9f5ff;
+    border-left: 5px solid #007BFF;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+/* estilos para la página "Contactos" */
+.contacto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.contacto-info-card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.contacto-info-card h3 {
+    color: #007BFF;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.contacto-info-card p {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
+footer {
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+footer p {
+    margin: 0;
+}
+
