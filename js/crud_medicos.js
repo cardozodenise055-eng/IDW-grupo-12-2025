@@ -42,6 +42,17 @@ function crearMedico(e) {
     const email = document.getElementById("email").value.trim();
     const obraSocial = document.getElementById("obraSocial").value.trim();
 
+    if(!nombre || !especialidad || !obraSocial){
+    alert('Por favor completa los campos requeridos');
+    return;
+}
+    alert(
+    `medico registrado:\n\n` +
+    `nombre: ${nombre}\n`
+    `especialidad: ${especialidad}\n`
+    `obrasocial: ${obraSocial}\n`
+);
+
     const nuevoMedico = {
         nombre: nombre,
         especialidad: especialidad,
@@ -51,6 +62,7 @@ function crearMedico(e) {
     }
 
     agregarMedico(nuevoMedico);
+    form.resert()
 }
 
 form.addEventListener("submit", crearMedico)
