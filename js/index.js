@@ -3,7 +3,7 @@ const MEDICOS_INICIALES = [{
         especialidad: "Cardiología",
         telefono: "123456789",
         email: "juanetepereyra@centromedico.com",
-        os: "OSDE",
+        obraSocial: "OSDE",
         id: 1
     },
     {
@@ -11,7 +11,7 @@ const MEDICOS_INICIALES = [{
         especialidad: "Pediatría",
         telefono: "987654321",
         email: "marialopez@centromedico.com",
-        os: "Swiss Medical",
+        obraSocial: "Swiss Medical",
         id: 2
     },
     {
@@ -19,7 +19,7 @@ const MEDICOS_INICIALES = [{
         especialidad: "Dermatología",
         telefono: "456123789",
         email: "carlossanchez@centromedico.com",
-        os: "Galeno",
+        obraSocial: "Galeno",
         id: 3
     }
 ];
