@@ -48,8 +48,8 @@ function crearMedico(e) {
 }
     alert(
     `medico registrado:\n\n` +
-    `nombre: ${nombre}\n`
-    `especialidad: ${especialidad}\n`
+    `nombre: ${nombre}\n` +
+    `especialidad: ${especialidad}\n` +
     `obrasocial: ${obraSocial}\n`
 );
 
