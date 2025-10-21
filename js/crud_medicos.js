@@ -66,3 +66,27 @@ function crearMedico(e) {
 }
 
 form.addEventListener("submit", crearMedico)
+
+const tablaMedicosBody = document.querySelector('tablaMedico tbody')
+
+let flagIndex = null;
+function actualizarTabla(){
+    let medicos = JSON.parse(localStorage.getItem('medicos')) || [];
+    tablaMedicosBody.innerHTML = '';
+
+    medicos.forEach(medicos, index => {
+        let fila = document.createElement('tr');
+        fila.innerHTML = `
+        <td>${medicos.nombre}</td>
+        <td>${medicos.especialidad}</td>
+        <td>${medicos.obraSocial}</td>
+        <td>${medicos.email}</td>
+        <td>
+        <button class="btn btn-sm btn-warning me-2 btn-editar" data-index="${index}">Editar </button>
+        <button class="btn btn-sm btn-warning me-2 btn-eliminar" data-index="${index}">Eliminar </button>
+        </td>
+        `;
+        tablaMedicosBody.appendChild(fila);
+
+    })
+}
