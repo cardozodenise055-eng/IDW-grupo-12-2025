@@ -119,25 +119,25 @@ h2 {
 
 
 
-hr {
+/*hr {
     border: none;
     height: 1px;
     background-color: #dee2e6;
     margin: 3rem 0;
-}
+}*/
 
-.valores-lista {
+/*.valores-lista {
     list-style-type: none;
     padding: 0;
-}
+}*/
 
-.valores-lista li {
+/*.valores-lista li {
     background-color: #e9f5ff;
     border-left: 5px solid #007BFF;
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 4px;
-}
+}*/
 
 /* estilos para la página "Contactos" */
 .contacto-info {
