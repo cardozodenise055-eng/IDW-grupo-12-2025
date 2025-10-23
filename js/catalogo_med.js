@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     tarjeta.innerHTML = `
       <div class="card w-100">
-        <img src="${medico.foto}" class="card-img-top" alt="${medico.nombre}">
+        <img src="${medico.imagen}" class="card-img-top" alt="${medico.nombre}">
         <div class="card-body">
           <h3 class="card-title">${medico.nombre}</h3>
           <p class="card-text">Especialidad: ${medico.especialidad}</p>
