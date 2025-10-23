@@ -14,19 +14,13 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
             <div class="container">
-
-                <!-- Logo / Nombre -->
                 <a class="navbar-brand fw-bold" href="index.html">
                     Centro de Salud - IDW S.A.
                 </a>
-
-                <!-- Botón Hamburguesa -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
                     aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <!-- Menú alineado a la derecha -->
                 <div class="collapse navbar-collapse" id="menuNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
@@ -38,6 +32,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="formularioMedicos.html">Alta Medicos</a>
                         </li>
+                        <li class="nav-item" id="navSesion"></li>
                     </ul>
                 </div>
             </div>
@@ -69,10 +64,22 @@
                     <input type="email" class="form-control" id="email" placeholder="Ej: dr.juan@centromedico.com"
                         required>
                 </div>
+
+                <div class="mb-3">
+                    <label for="dni" class="form-label">DNI</label>
+                    <input type="text" class="form-control" id="dni" placeholder="Ej: 12345678" required>
+                </div>
+
                 <div class="mb-3">
                     <label for="obraSocial" class="form-label">Obra Social</label>
                     <input type="text" class="form-control" id="obraSocial" placeholder="Ej: Omint, Osdepym" required>
                 </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Foto del médico</label>
+                    <input type="file" class="form-control" id="imagen" accept="image/*" required>
+                </div>
+
 
                 <div class="text-end">
                     <button type="submit" class="btn btn-primary">Guardar Médico</button>
@@ -98,7 +105,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!--Los médicos se agregarán aquí dinámicamente-->
                     </tbody>
                 </table>
             </div>
@@ -112,6 +118,7 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
     </script>
     <script src="js/crud_medicos.js"></script>
+    <script src="js/login.js"></script>
 </body>
 
 </html>
