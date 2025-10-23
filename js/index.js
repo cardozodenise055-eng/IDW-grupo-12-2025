@@ -1,5 +1,5 @@
 const MEDICOS_INICIALES = [{
-        nombre: "Dr. Juanete Pereyra",
+        nombre: "Dra. Juanete Pereyra",
         especialidad: "Cardiología",
         telefono: "123456789",
         email: "juanetepereyra@centromedico.com",
@@ -9,7 +9,7 @@ const MEDICOS_INICIALES = [{
         id: 1
     },
     {
-        nombre: "Dra. Mario López",
+        nombre: "Dr. Mario López",
         especialidad: "Pediatría",
         telefono: "987654321",
         email: "marialopez@centromedico.com",
