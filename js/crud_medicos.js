@@ -29,7 +29,55 @@ function agregarMedico(medico) {
 
     console.log('Muestro en consola los medicos después de guardar el Nuevo', obtenerMedicos());
 }
+function buscarMedicoPorDni(dni) {
+    const medicos = obtenerMedicos();
+    return medicos.find(m => m.dni === dni);
+}
+function actualizarMedico(dni, datosActualizados) {
+    const medicos = obtenerMedicos();
+    const indice = medicos.findIndex(m => m.dni === dni);
 
+    if (indice !== -1) {
+        medicos[indice] = { ...medicos[indice], ...datosActualizados };
+        guardarMedicos(medicos);
+        console.log("Médico actualizado correctamente:", medicos[indice]);
+    } else {
+        console.log("No se encontró un médico con ese DNI.");
+    }
+}
+
+function editarMedico(dni) {
+    const medico = buscarMedicoPorDni(dni); 
+
+    if (medico) {
+        document.getElementById("dni").value = medico.dni;
+        document.getElementById("nombre").value = medico.nombre;
+        document.getElementById("especialidad").value = medico.especialidad;
+        document.getElementById("telefono").value = medico.telefono;
+        document.getElementById("email").value = medico.email;
+        document.getElementById("obraSocial").value = medico.obraSocial;
+    } else {
+        console.log("No se encontró un médico con ese DNI.");
+    }
+}
+function guardarCambios() {
+    const dni = document.getElementById("dni").value.trim();
+    const nombre = document.getElementById("nombre").value.trim();
+    const especialidad = document.getElementById("especialidad").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const obraSocial = document.getElementById("obraSocial").value.trim();
+
+    const datosActualizados = {
+        nombre,
+        especialidad,
+        telefono,
+        email,
+        obraSocial
+    };
+
+    actualizarMedico(dni, datosActualizados);
+}
 /* Manejo del formulario */
 function crearMedico(e) {
     e.preventDefault();
@@ -94,3 +142,51 @@ function actualizarTabla(){
     
 }
 actualizarTabla();
+
+function eliminarMedico(dni) {
+    const medicos = obtenerMedicos();
+    const nuevosMedicos = medicos.filter(m => m.dni !== dni);
+    
+    if (nuevosMedicos.length === medicos.length) {
+        console.log("No se encontró un médico con ese DNI.");
+        return;
+    }
+
+    guardarMedicos(nuevosMedicos);
+    console.log("Médico eliminado correctamente.");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("formMedico");
+    const mensaje = document.getElementById("mensaje");
+    const btnEliminar = document.getElementById("btnEliminar");
+
+    const params = new URLSearchParams(window.location.search);
+    const dni = params.get("dni");
+
+    if (dni) {
+        editarMedico(dni);
+
+        // Guardar cambios
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            guardarCambios();
+
+            if (mensaje) {
+                mensaje.classList.remove("d-none");
+                setTimeout(() => mensaje.classList.add("d-none"), 3000);
+            }
+        });
+
+        // Eliminar médico
+        if (btnEliminar) {
+            btnEliminar.addEventListener("click", function() {
+                if (confirm("¿Seguro que querés eliminar este médico?")) {
+                    eliminarMedico(dni);
+                    alert("Médico eliminado correctamente.");
+                    window.location.href = "listadoMedicos.html"; 
+                }
+            });
+        }
+    }
+});
