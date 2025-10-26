@@ -32,6 +32,8 @@ const MEDICOS_INICIALES = [{
 
 function inicializarLocalStorage() {
 
+    localStorage.removeItem("usuarioLogueado")
+
     if (!localStorage.getItem("medicos")) {
         localStorage.setItem("medicos", JSON.stringify(MEDICOS_INICIALES));
         console.log("LocalStorage inicializado", JSON.parse(localStorage.getItem("medicos")));
