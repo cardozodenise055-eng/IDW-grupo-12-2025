@@ -36,7 +36,7 @@ function agregarMedico(medico) {
     document.getElementById("mensaje").classList.remove("d-none");
 
     console.log('Muestro en consola los medicos después de guardar el Nuevo', obtenerMedicos());
-    actualizarTabla();
+    window.location.href = "listarProfesionales.html";
 }
 
 function buscarMedicoPorDni(dni) {
@@ -55,6 +55,7 @@ function actualizarMedico(dni, datosActualizados) {
         };
         guardarMedicos(medicos);
         console.log("Médico actualizado correctamente:", medicos[indice]);
+        window.location.href = "listarProfesionales.html";
     } else {
         console.log("No se encontró un médico con ese DNI.");
     }
@@ -150,37 +151,39 @@ function crearMedico(e) {
     lector.readAsDataURL(archivo);
 }
 
-form.addEventListener("submit", crearMedico)
+if (form) {
+    form.addEventListener("submit", crearMedico);
+}
 
-const tablaMedicosBody = document.querySelector('#tablaMedicos tbody')
+const cardMedicos = document.querySelector('#cardMedicos')
 
 let flagIndex = null;
 
 function actualizarTabla() {
     let medicos = JSON.parse(localStorage.getItem('medicos')) || [];
-    tablaMedicosBody.innerHTML = '';
+    cardMedicos.innerHTML = '';
 
     console.log(medicos)
     medicos.forEach(function (medico, index) {
-        let fila = document.createElement('tr');
+        let fila = document.createElement('div');
+        fila.classList.add('col');
         fila.innerHTML = `
-        <td>${medico.nombre}</td>
-        <td>${medico.especialidad}</td>
-        <td>${medico.telefono}</td>
-        <td>${medico.obraSocial}</td>
-        <td>${medico.email}</td>
-        <td>
-        <a href="formulariomedicoseditar.html?dni=${medico.dni}" class="btn btn-sm btn-warning me-2 btn-editar">Editar </button>
-       
-        </td>
+            <div class="card h-100 profesional-card">
+                <div class="card-body">
+                    <h5 class="card-title">${medico.nombre}</h5>
+                    <p class="card-text">${medico.especialidad}</p>
+                    <p class="card-text">Tel.:${medico.telefono}</p>
+                    <p class="card-text">E-mail:${medico.email}</p>
+                    <a href="formularioMedicosEditar.html?dni=${medico.dni}" class="btn btn-primary">Editar</a>
+                </div>
+            </div>
         `;
-        tablaMedicosBody.appendChild(fila);
-
+        cardMedicos.appendChild(fila);
     })
 
 }
 
-if (tablaMedicosBody) {
+if (cardMedicos) {
     actualizarTabla();
 }
 
@@ -198,6 +201,32 @@ function eliminarMedico(dni) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+    /* session */
+    const navSesion = document.getElementById("navSesion");
+    const usuario = sessionStorage.getItem("usuarioLogueado");
+
+    if (usuario) {
+        navSesion.innerHTML = `
+      <button id="btnCerrar" class="btn btn-outline-light btn-sm ms-2 my-1">
+        Cerrar sesión
+      </button>
+    `;
+
+        document.getElementById("btnCerrar").addEventListener("click", () => {
+            sessionStorage.removeItem("usuarioLogueado");
+            window.location.href = "login.html";
+        });
+
+    } else {
+        navSesion.innerHTML = `
+      <a href="login.html" class="btn btn-outline-light btn-sm ms-2 my-1">
+        Iniciar sesión
+      </a>
+    `;
+    }
+
+    /* fin session */
+
     const form = document.getElementById("formMedico");
     const mensaje = document.getElementById("mensaje");
     const btnEliminar = document.getElementById("btnEliminar");
