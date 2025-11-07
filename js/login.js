@@ -1,3 +1,4 @@
+import { login } from "./auth.js";
 const formlogin = document.getElementById("formlogin");
 const usuario = document.getElementById("usuario");
 const clave = document.getElementById("clave");
@@ -11,18 +12,18 @@ function mostrarmensaje(texto, tipo) {
 }
 
 if (formlogin) {
-    formlogin.addEventListener('submit', function (event) {
+    formlogin.addEventListener('submit', async function (event) {
         event.preventDefault();
 
         let usuarioinput = usuario.value.trim();
         let clave_ = clave.value.trim();
 
-        const isusuario = usuarios.find(
-            u => u.usuario === usuarioinput && u.clave === clave_
-        );
+
+        const isusuario = await login(usuarioinput, clave_)
 
         if (isusuario) {
-            sessionStorage.setItem("usuarioLogueado", usuarioinput);
+            sessionStorage.setItem("usuarioLogueado", isusuario.username);
+            sessionStorage.setItem("token", isusuario.accessToken);
             mostrarmensaje(`bienvenido usuario ${usuarioinput}`, "success");
             window.location.href = "formulariomedicos.html";
         } else {
