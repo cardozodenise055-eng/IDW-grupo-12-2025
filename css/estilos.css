@@ -7,6 +7,10 @@ body {
     line-height: 1.6;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 /* header */
 
 .navbar-nav .nav-link {
@@ -174,4 +178,13 @@ footer {
 footer p {
     margin: 0;
 
+}
+
+.panel-link {
+    transition: .5s;
+}
+
+.panel-link:hover {
+    color: #ffeb3b;
+    transform: scale(1.05);
 }

@@ -25,7 +25,7 @@ if (formlogin) {
             sessionStorage.setItem("usuarioLogueado", isusuario.username);
             sessionStorage.setItem("token", isusuario.accessToken);
             mostrarmensaje(`bienvenido usuario ${usuarioinput}`, "success");
-            window.location.href = "formulariomedicos.html";
+            window.location.href = "panel.html";
         } else {
             mostrarmensaje('error de credenciales', "danger")
         }
