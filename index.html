@@ -2,73 +2,86 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IDW</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/estilos.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IDW</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/estilos.css" />
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-            <div class="container">
-                <a class="navbar-brand fw-bold" href="index.html">
-                    Centro de Salud - IDW S.A.
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
-                    aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="menuNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="institucional.html">Institucional</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contacto.html">Contactos</a>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">
+          Centro de Salud - IDW S.A.
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
+          aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menuNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="institucional.html">Institucional</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contacto.html">Contactos</a>
+            </li>
+            <li class="nav-item" id="navSesion"></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="formularioMedicos.html">Alta Medicos</a>
+  <main class="container">
+    <!-- lista de Obras Sociales -->
+    <section class="mb-5">
+      <h2 class="mb-3">Obra social</h2>
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <button class="btn btn-outline-primary btn-sm" type="button">
+          ✔️Osdepym
+        </button>
+        <button class="btn btn-outline-primary btn-sm" type="button">
+          ✔️Omint
+        </button>
+        <button class="btn btn-outline-primary btn-sm" type="button">
+          ✔️ Medicus
+        </button>
+      </div>
+    </section>
 
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="listarProfesionales.html">Listar Profesionales</a>
-                        </li>
-                        <li class="nav-item" id="navSesion"></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <!-- lista de Turnos por DNI -->
+    <section class="mb-5">
+      <h2 class="mb-3">Buscar mis Turnos</h2>
+      <form method="post">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="dni" class="form-label">DNI</label>
+            <input type="text" class="form-control" id="dni" placeholder="12345678" />
+          </div>
+        </div>
+      </form>
+      <div class="d-flex flex-wrap gap-2 mt-4" id="tusreservas"></div>
+    </section>
 
-    <main class="container">
-        <section class="mb-5">
-            <H2 class="mb-3">Obra social</H2>
-            <div class="d-flex flex-wrap gap-2 mb-4">
-                <button class="btn btn-outline-primary btn-sm" type="button">✔️Osdepym</button>
-                <button class="btn btn-outline-primary btn-sm" type="button">✔️Omint</button>
-                <button class="btn btn-outline-primary btn-sm" type="button">✔️ Medicus</button>
-            </div>
-        </section>
-
-        <section class="catálogo">
-            <h2 class="mb-2">Profesionales</h2>
-            <div class="row g-4" id="contenedor-catalogo"></div>
-        </section>
-
-    </main>
-    <footer>
-        <p>&copy; 2025 IDW</p>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
-    </script>
-    <script src="js/index.js"></script>
-    <script src="js/login.js"></script>
-    <script src="js/catalogo_med.js"></script>
+    <!-- lista de Profesionales -->
+    <section class="catálogo">
+      <h2 class="mb-2">Profesionales</h2>
+      <div class="row g-4" id="contenedor-catalogo"></div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 IDW</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+  </script>
+  <script src="js/index.js"></script>
+  <script type="module" src="js/login.js"></script>
+  <script src="js/catalogo_med.js"></script>
 </body>
 
 </html>
