@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <title>Alta Medicos</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="index.html">
+                    Centro de Salud - IDW S.A.
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
+                    aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="institucional.html">Institucional</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contacto.html">Contactos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="formularioMedicos.html">Alta Medicos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="listarProfesionales.html">Listar Profesionales</a>
+                        </li>
+                        <li class="nav-item" id="navSesion"></li>
+
+                        <li class="nav-item">
+                            <button id="salir" class="btn btn-danger btn-sm">salir</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 class="text-center mb-4">Alta de especialidades</h1>
+
+            <form id="formEspecialidad" class="card card-body shadow p-4 mx-auto" style="max-width: 600px;">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre completo</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="nombre especialidad" required>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Guardar Especialidad</button>
+                    <button type="reset" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+
+            <div id="mensaje" class="alert alert-success mt-4 text-center d-none">Especialidad guardada correctamente ✅</div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 IDW</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+    </script>
+    <script src="js/crud_especialidades.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>
