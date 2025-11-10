@@ -186,15 +186,8 @@ function actualizarTabla() {
 document.addEventListener('DOMContentLoaded',() =>{
     if(!sessionStorage.getItem('token')){
         alert("Debe loguearse");
-        window.location.href='../index.html';
+        window.location.href='../login.html';
         return;
-    }
-    const salir = document.getElementById('salir');
-    if(salir){
-        salir.addEventListener('click', () => {
-            sessionStorage.clear();
-            window.location.href = '../index.html';
-        })
     }
 })
 

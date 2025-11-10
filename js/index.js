@@ -46,3 +46,36 @@ function inicializarLocalStorage() {
 }
 
 inicializarLocalStorage();
+
+/* Aqui la logica para consultar las reservas por DNI de Paciante */
+
+const reservas = localStorage.getItem("reservas") ? JSON.parse(localStorage.getItem("reservas")) : [];
+
+const contenedor = document.getElementById("tusreservas");
+const inputDni = document.getElementById("dni");
+
+inputDni.addEventListener("input", () => {
+    const dni = inputDni.value.trim();
+    contenedor.innerHTML = "";
+
+    if (dni.length === 8) {
+      const resultados = reservas.filter(r => r.Documento === dni);
+
+      if (resultados.length > 0) {
+        resultados.forEach(r => {
+          const ul = document.createElement("ul");
+          ul.classList.add("list-group", "mb-3");
+          ul.innerHTML = `
+            <li class="list-group-item"><strong>Paciente:</strong> ${r["Apellido y nombre del paciente"]}</li>
+            <li class="list-group-item"><strong>Turno N°:</strong> ${r.Turno}</li>
+            <li class="list-group-item"><strong>Especialidad:</strong> ${r.Especialidad}</li>
+            <li class="list-group-item"><strong>Obra social:</strong> ${r["Obra social"]}</li>
+            <li class="list-group-item"><strong>Valor total:</strong> $${r["Valor total"]}</li>
+          `;
+          contenedor.appendChild(ul);
+        });
+      } else {
+        contenedor.innerHTML = `<p class="text-muted">No se encontraron reservas para el DNI ${dni}.</p>`;
+      }
+    }
+})
