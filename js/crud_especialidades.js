@@ -105,19 +105,20 @@ function crearEspecialidad(e) {
 
 
         alert(
-            `obra social registrada:\n\n` +
+            `especialidad registrada:\n\n` +
             `nombre: ${nombre}\n`
-            
+             
         
            
         );
 
-        const nuevaObraSocial = {
+        const nuevaEspecialidad = {
             nombre: nombre,
+          
         
         };
 
-        agregarEspecialidad(nuevaObraSocial);
+        agregarEspecialidad(nuevaEspecialidad);
 
         form.reset();
     };
