@@ -9,12 +9,19 @@ if (!usuario) {
 
 /* Funciones para buscar especialidades */
 function obtenerEspecialidades() {
-    return JSON.parse(localStorage.getItem("especialidades"));
+    return JSON.parse(localStorage.getItem("especialidades") || "[]");
 }
+
+console.log(obtenerEspecialidades());
 
 /* Función para obtener el siguiente ID */
 function obtenerSiguienteId() {
     const especialidades = obtenerEspecialidades();
+
+    if (especialidades.length === 0) {
+        return 1;
+    }
+
     const ultimoID = especialidades[especialidades.length - 1];
     return ultimoID.id + 1;
 }
@@ -36,7 +43,6 @@ function agregarEspecialidad(especialidad) {
     document.getElementById("mensaje").classList.remove("d-none");
 
     console.log('Muestro en consola las especialidades después de guardar el Nuevo', obtenerEspecialidades());
-    window.location.href = "listarProfesionales.html";
 }
 
 function buscarEspecialidadporid(id) {
@@ -68,7 +74,7 @@ function editarEspecialidad(id) {
         document.getElementById("id").value = especialidad.id;
         document.getElementById("nombre").value = especialidad.nombre;
         document.getElementById("nombre").value = especialidad.descripcion;
-       
+
     } else {
         console.log("No se encontró una obra social con ese id.");
         alert(`No se encontró una obra social con ese id: ${id}.`);
@@ -84,7 +90,7 @@ function guardarCambios() {
         nombre,
         descripcion,
         dni,
-      
+
     };
 
     actualizarEspecialidad(id, datosActualizados);
@@ -97,32 +103,24 @@ function crearEspecialidad(e) {
 
     const nombre = document.getElementById("nombre").value.trim();
 
-
     if (!nombre) {
         alert('Por favor completa los campos requeridos');
         return;
     }
 
+    /* alert(
+        `especialidad registrada:\n\n` +
+        `nombre: ${nombre}\n`
+    ); */
 
-        alert(
-            `especialidad registrada:\n\n` +
-            `nombre: ${nombre}\n`
-             
-        
-           
-        );
-
-        const nuevaEspecialidad = {
-            nombre: nombre,
-          
-        
-        };
-
-        agregarEspecialidad(nuevaEspecialidad);
-
-        form.reset();
+    const nuevaEspecialidad = {
+        nombre: nombre,
     };
 
+    agregarEspecialidad(nuevaEspecialidad);
+
+    form.reset();
+};
 
 if (form) {
     form.addEventListener("submit", crearEspecialidad);
@@ -154,10 +152,10 @@ function actualizarTabla() {
 
 }
 
-document.addEventListener('DOMContentLoaded',() =>{
-    if(!sessionStorage.getItem('token')){
+document.addEventListener('DOMContentLoaded', () => {
+    if (!sessionStorage.getItem('token')) {
         alert("Debe loguearse");
-        window.location.href='../login.html';
+        window.location.href = '../login.html';
         return;
     }
 })
@@ -205,9 +203,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     /* fin session */
-
-    const form = document.getElementById("formEspecialidad");
-    const mensaje = document.getElementById("mensaje");
     const btnEliminar = document.getElementById("btnEliminar");
 
     const params = new URLSearchParams(window.location.search);
