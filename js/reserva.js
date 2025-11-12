@@ -1,33 +1,45 @@
+/* ============================================================
+   RESERVA DE TURNOS - Versión por DNI de médico
+   ============================================================ */
+
+/* --- Leer médicos desde localStorage --- */
 const medicos = JSON.parse(localStorage.getItem("medicos")) || [];
 
-/* Referencias a selects */
+/* --- Referencias a elementos del DOM --- */
 const selectEspecialidad = document.getElementById("selectEspecialidad");
 const selectMedico = document.getElementById("selectMedico");
 const precioMedicoP = document.getElementById("precioMedico");
 
-/* --- Utilidades para normalizar campos (para ser tolerante con distintos formatos) --- */
-const getMedicoId = (m) => m.id ?? m.dni ?? m.DNI ?? m.dniMedico ?? null;
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+
+/* Obtener DNI del médico (clave principal) */
+const getMedicoDNI = (m) => m.dni ?? m.DNI ?? null;
+
+/* Nombre para mostrar */
 const getMedicoNombreDisplay = (m) => {
-  // Priorizar Apellido + Nombre si existen, si no usar nombre
   if (m.Apellido && m.Nombre) return `${m.Apellido} ${m.Nombre}`;
   if (m.apellido && m.nombre) return `${m.apellido} ${m.nombre}`;
   if (m.nombre) return m.nombre;
   if (m.Nombre) return m.Nombre;
   return "Médico sin nombre";
 };
+
+/* Especialidad */
 const getMedicoEspecialidad = (m) =>
   m.especialidad ?? m.Especialidad ?? m.specialty ?? "";
 
-/* --- Cargar especialidades únicas en el select --- */
+/* ============================================================
+   CARGAR ESPECIALIDADES
+   ============================================================ */
 function cargarEspecialidadesDesdeMedicos() {
   if (!selectEspecialidad) return;
 
-  // obtener todas las especialidades (normalizadas)
   const especialidades = Array.from(
     new Set(medicos.map((m) => getMedicoEspecialidad(m)).filter((s) => s))
   );
 
-  // limpiar y poner opción por defecto
   selectEspecialidad.innerHTML = `<option value="">Seleccione una especialidad...</option>`;
 
   especialidades.forEach((esp) => {
@@ -37,13 +49,14 @@ function cargarEspecialidadesDesdeMedicos() {
     selectEspecialidad.appendChild(opt);
   });
 
-  // si no hay especialidades, avisar
   if (especialidades.length === 0) {
     selectEspecialidad.innerHTML = `<option value="">No hay especialidades cargadas</option>`;
   }
 }
 
-/* --- Filtrar médicos por especialidad y poblar selectMedico --- */
+/* ============================================================
+   FILTRAR MÉDICOS POR ESPECIALIDAD
+   ============================================================ */
 function filtrarMedicos() {
   if (!selectMedico) return;
 
@@ -52,7 +65,6 @@ function filtrarMedicos() {
 
   if (!especialidadSeleccionada) return;
 
-  // filtrar los médicos que pertenezcan a la especialidad seleccionada
   const medicosFiltrados = medicos.filter(
     (m) => getMedicoEspecialidad(m) === especialidadSeleccionada
   );
@@ -64,46 +76,175 @@ function filtrarMedicos() {
 
   medicosFiltrados.forEach((m) => {
     const opt = document.createElement("option");
-    // valor: preferimos dni (si tu CRUD usa dni), sino id
-    opt.value = getMedicoId(m) || getMedicoNombreDisplay(m);
+    opt.value = getMedicoDNI(m); // 👈 usamos el DNI como identificador
     opt.textContent = `${getMedicoNombreDisplay(m)}${m.obraSocial ? " — " + m.obraSocial : ""}`;
     selectMedico.appendChild(opt);
   });
 
-  // limpiar precio cuando cambie la especialidad
   if (precioMedicoP) precioMedicoP.textContent = "";
 }
 
-/* --- Mostrar precio u otra info del médico seleccionado (opcional) --- */
+/* ============================================================
+   MOSTRAR PRECIO DEL MÉDICO Y TURNOS DISPONIBLES
+   ============================================================ */
 function mostrarPrecio() {
-  const valor = selectMedico.value;
-  if (!valor) {
+  const dniMedico = selectMedico.value;
+  if (!dniMedico) {
     if (precioMedicoP) precioMedicoP.textContent = "";
     return;
   }
 
-  // buscar médico por dni o id
-  const medico = medicos.find((m) => {
-    const id = String(getMedicoId(m));
-    return id === String(valor);
-  });
+  const medico = medicos.find((m) => String(getMedicoDNI(m)) === String(dniMedico));
 
   if (!medico) {
     if (precioMedicoP) precioMedicoP.textContent = "";
-    console.warn("medico no encontrado para mostrar precio:", valor);
+    console.warn("Médico no encontrado:", dniMedico);
     return;
   }
 
-  // distintos nombres posibles para precio según cómo lo guardes
-  const precio = medico.precio ?? medico.Valor ?? medico.Valor_Total ?? medico.valor ?? medico.price ?? null;
-  if (precio != null) {
-    precioMedicoP.textContent = `Precio: $${precio}`;
-  } else {
-    precioMedicoP.textContent = "Precio: (no definido)";
-  }
+  const precio = medico.precio ?? medico.valor ?? medico.Valor ?? medico.price ?? null;
+  precioMedicoP.textContent = precio != null ? `Precio: $${precio}` : "Precio: (no definido)";
+
+  // 👇 Mostrar los turnos disponibles
+  mostrarTurnosDisponibles();
 }
 
-/* --- Iniciar: cargar especialidades al cargar la página --- */
+/* ============================================================
+   GENERAR TURNOS (próximos 7 días hábiles)
+   ============================================================ */
+function generarPosiblesTurnos(dias = 7) {
+  const franjas = ["09:00", "10:00", "11:00", "14:00", "15:00"];
+  const turnos = [];
+  const hoy = new Date();
+
+  for (let i = 0; i < dias; i++) {
+    const dia = new Date(hoy);
+    dia.setDate(hoy.getDate() + i);
+
+    // Omitir fines de semana
+    if (dia.getDay() === 0 || dia.getDay() === 6) continue;
+
+    const yyyy = dia.getFullYear();
+    const mm = String(dia.getMonth() + 1).padStart(2, "0");
+    const dd = String(dia.getDate()).padStart(2, "0");
+
+    franjas.forEach((h) => turnos.push(`${yyyy}-${mm}-${dd} ${h}`));
+  }
+  return turnos;
+}
+
+/* ============================================================
+   MOSTRAR TURNOS DISPONIBLES (filtrando reservas)
+   ============================================================ */
+function mostrarTurnosDisponibles() {
+  const selectTurno = document.getElementById("selectTurno");
+  if (!selectTurno) return;
+  selectTurno.innerHTML = `<option value="">Seleccione día y hora...</option>`;
+
+  const dniMedico = selectMedico.value;
+  if (!dniMedico) return;
+
+  const reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+  const reservasMedico = reservas.filter(
+    (r) => String(r.dniMedico) === String(dniMedico)
+  );
+
+  const posiblesTurnos = generarPosiblesTurnos(7);
+
+  const turnosDisponibles = posiblesTurnos.filter(
+    (t) => !reservasMedico.some((r) => r.fecha === t)
+  );
+
+  if (turnosDisponibles.length === 0) {
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = "No hay turnos disponibles";
+    selectTurno.appendChild(opt);
+    return;
+  }
+
+  turnosDisponibles.forEach((turno) => {
+    const opt = document.createElement("option");
+    opt.value = turno;
+    opt.textContent = turno.replace(" ", " — ");
+    selectTurno.appendChild(opt);
+  });
+}
+
+/* ============================================================
+   RESERVAR TURNO
+   ============================================================ */
+function reservarTurno() {
+  const dniMedico = selectMedico.value;
+  const turno = document.getElementById("selectTurno").value;
+  const obraSocial = document.getElementById("obraSocial").value.trim().toUpperCase();
+  const dniPaciente = document.getElementById("dni").value.trim();
+  const nombrePaciente = document.getElementById("nombre").value.trim();
+
+  if (!dniMedico || !turno || !obraSocial || !dniPaciente || !nombrePaciente) {
+    alert("Por favor, complete todos los campos antes de reservar.");
+    return;
+  }
+
+  const medico = medicos.find((m) => String(getMedicoDNI(m)) === String(dniMedico));
+  if (!medico) {
+    alert("Error: médico no encontrado.");
+    return;
+  }
+
+  const reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+
+  const ocupado = reservas.some(
+    (r) => r.dniMedico === dniMedico && r.fecha === turno
+  );
+  if (ocupado) {
+    alert("Ese turno ya fue reservado. Seleccione otro.");
+    mostrarTurnosDisponibles();
+    return;
+  }
+
+  const nuevaReserva = {
+    dniMedico,
+    medicoNombre: getMedicoNombreDisplay(medico),
+    especialidad: getMedicoEspecialidad(medico),
+    pacienteDNI: dniPaciente,
+    pacienteNombre: nombrePaciente,
+    obraSocial,
+    fecha: turno,
+    precio: medico.precio ?? medico.valor ?? medico.Valor ?? medico.price ?? "—"
+  };
+
+  reservas.push(nuevaReserva);
+  localStorage.setItem("reservas", JSON.stringify(reservas));
+
+  mostrarTicket(nuevaReserva);
+  mostrarTurnosDisponibles();
+}
+
+/* ============================================================
+   MOSTRAR TICKET DE RESERVA (modal)
+   ============================================================ */
+function mostrarTicket(reserva) {
+  const detalle = document.getElementById("detalleTicket");
+  if (!detalle) return;
+
+  detalle.innerHTML = `
+    <p><strong>Médico:</strong> ${reserva.medicoNombre}</p>
+    <p><strong>Especialidad:</strong> ${reserva.especialidad}</p>
+    <p><strong>Fecha y hora:</strong> ${reserva.fecha}</p>
+    <p><strong>Paciente:</strong> ${reserva.pacienteNombre}</p>
+    <p><strong>DNI:</strong> ${reserva.pacienteDNI}</p>
+    <p><strong>Obra social:</strong> ${reserva.obraSocial}</p>
+    <p><strong>Precio:</strong> ${reserva.precio !== "—" ? "$" + reserva.precio : "—"}</p>
+  `;
+
+  const modal = new bootstrap.Modal(document.getElementById("modalTicket"));
+  modal.show();
+}
+
+/* ============================================================
+   INICIALIZACIÓN
+   ============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
   cargarEspecialidadesDesdeMedicos();
 });
