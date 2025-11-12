@@ -1,23 +1,12 @@
-/* ============================================================
-   RESERVA DE TURNOS - Versión por DNI de médico
-   ============================================================ */
 
-/* --- Leer médicos desde localStorage --- */
 const medicos = JSON.parse(localStorage.getItem("medicos")) || [];
 
-/* --- Referencias a elementos del DOM --- */
 const selectEspecialidad = document.getElementById("selectEspecialidad");
 const selectMedico = document.getElementById("selectMedico");
 const precioMedicoP = document.getElementById("precioMedico");
 
-/* ============================================================
-   UTILIDADES
-   ============================================================ */
-
-/* Obtener DNI del médico (clave principal) */
 const getMedicoDNI = (m) => m.dni ?? m.DNI ?? null;
 
-/* Nombre para mostrar */
 const getMedicoNombreDisplay = (m) => {
   if (m.Apellido && m.Nombre) return `${m.Apellido} ${m.Nombre}`;
   if (m.apellido && m.nombre) return `${m.apellido} ${m.nombre}`;
@@ -26,13 +15,9 @@ const getMedicoNombreDisplay = (m) => {
   return "Médico sin nombre";
 };
 
-/* Especialidad */
 const getMedicoEspecialidad = (m) =>
   m.especialidad ?? m.Especialidad ?? m.specialty ?? "";
 
-/* ============================================================
-   CARGAR ESPECIALIDADES
-   ============================================================ */
 function cargarEspecialidadesDesdeMedicos() {
   if (!selectEspecialidad) return;
 
@@ -54,9 +39,6 @@ function cargarEspecialidadesDesdeMedicos() {
   }
 }
 
-/* ============================================================
-   FILTRAR MÉDICOS POR ESPECIALIDAD
-   ============================================================ */
 function filtrarMedicos() {
   if (!selectMedico) return;
 
@@ -83,10 +65,6 @@ function filtrarMedicos() {
 
   if (precioMedicoP) precioMedicoP.textContent = "";
 }
-
-/* ============================================================
-   MOSTRAR PRECIO DEL MÉDICO Y TURNOS DISPONIBLES
-   ============================================================ */
 function mostrarPrecio() {
   const dniMedico = selectMedico.value;
   if (!dniMedico) {
@@ -105,13 +83,9 @@ function mostrarPrecio() {
   const precio = medico.precio ?? medico.valor ?? medico.Valor ?? medico.price ?? null;
   precioMedicoP.textContent = precio != null ? `Precio: $${precio}` : "Precio: (no definido)";
 
-  // 👇 Mostrar los turnos disponibles
   mostrarTurnosDisponibles();
 }
 
-/* ============================================================
-   GENERAR TURNOS (próximos 7 días hábiles)
-   ============================================================ */
 function generarPosiblesTurnos(dias = 7) {
   const franjas = ["09:00", "10:00", "11:00", "14:00", "15:00"];
   const turnos = [];
@@ -120,8 +94,6 @@ function generarPosiblesTurnos(dias = 7) {
   for (let i = 0; i < dias; i++) {
     const dia = new Date(hoy);
     dia.setDate(hoy.getDate() + i);
-
-    // Omitir fines de semana
     if (dia.getDay() === 0 || dia.getDay() === 6) continue;
 
     const yyyy = dia.getFullYear();
@@ -133,9 +105,6 @@ function generarPosiblesTurnos(dias = 7) {
   return turnos;
 }
 
-/* ============================================================
-   MOSTRAR TURNOS DISPONIBLES (filtrando reservas)
-   ============================================================ */
 function mostrarTurnosDisponibles() {
   const selectTurno = document.getElementById("selectTurno");
   if (!selectTurno) return;
@@ -170,10 +139,6 @@ function mostrarTurnosDisponibles() {
     selectTurno.appendChild(opt);
   });
 }
-
-/* ============================================================
-   RESERVAR TURNO
-   ============================================================ */
 function reservarTurno() {
   const dniMedico = selectMedico.value;
   const turno = document.getElementById("selectTurno").value;
@@ -220,10 +185,6 @@ function reservarTurno() {
   mostrarTicket(nuevaReserva);
   mostrarTurnosDisponibles();
 }
-
-/* ============================================================
-   MOSTRAR TICKET DE RESERVA (modal)
-   ============================================================ */
 function mostrarTicket(reserva) {
   const detalle = document.getElementById("detalleTicket");
   if (!detalle) return;
@@ -241,10 +202,6 @@ function mostrarTicket(reserva) {
   const modal = new bootstrap.Modal(document.getElementById("modalTicket"));
   modal.show();
 }
-
-/* ============================================================
-   INICIALIZACIÓN
-   ============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
   cargarEspecialidadesDesdeMedicos();
 });
