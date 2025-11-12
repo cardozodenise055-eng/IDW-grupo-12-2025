@@ -1,5 +1,6 @@
 const medicos = JSON.parse(localStorage.getItem("medicos")) || []
 let turnos = JSON.parse(localStorage.getItem("turnos")) || []
+let indiceEditando = null;
 
 const selectMedico = document.getElementById("medico")
 const formTurno = document.getElementById("form-turno")
