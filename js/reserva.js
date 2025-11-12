@@ -58,7 +58,7 @@ function filtrarMedicos() {
 
   medicosFiltrados.forEach((m) => {
     const opt = document.createElement("option");
-    opt.value = getMedicoDNI(m); // 👈 usamos el DNI como identificador
+    opt.value = getMedicoDNI(m); 
     opt.textContent = `${getMedicoNombreDisplay(m)}${m.obraSocial ? " — " + m.obraSocial : ""}`;
     selectMedico.appendChild(opt);
   });
