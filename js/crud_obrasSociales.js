@@ -164,7 +164,7 @@ function mostrarObrasSociales() {
                 <button class="btn btn-primary btn-sm" onclick="editarObraSocial(${os.id})">Editar</button>
             </td>`
 
-        tablaObrasSociales.appendChild(fila)
+    tablaObrasSociales.appendChild(fila)
     })
 }
 

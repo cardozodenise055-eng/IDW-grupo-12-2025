@@ -38,9 +38,15 @@
             <h1 class="text-center mb-4">Alta de Especialidades</h1>
 
             <form id="formEspecialidad" class="card card-body shadow p-4 mx-auto" style="max-width: 600px;">
+                <input type="hidden" name="id" id="id">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre completo</label>
-                    <input type="text" class="form-control" id="nombre" placeholder="nombre especialidad" required>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre especialidad" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" id="descripcion" placeholder="descripcion especialidad" required>
                 </div>
 
                 <div class="text-end">
@@ -49,9 +55,21 @@
                 </div>
             </form>
 
-            <div id="mensaje" class="alert alert-success mt-4 text-center d-none">Especialidad guardada correctamente ✅
-            </div>
         </div>
+        <div id="mensaje" class="alert alert-success mt-4 text-center d-none">Especialidad guardada correctamente ✅
+        </div>
+
+        <table class="table table-bordered table-striped mt-4 mb-4">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-especialidades"></tbody>
+        </table>
     </main>
 
     <footer>

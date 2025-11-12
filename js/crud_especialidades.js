@@ -1,5 +1,6 @@
 const form = document.getElementById("formEspecialidad");
 const mensaje = document.getElementById("mensaje");
+const tablaEspecialidades = document.getElementById("tabla-especialidades");
 
 const usuario = sessionStorage.getItem("usuarioLogueado");
 
@@ -7,14 +8,14 @@ if (!usuario) {
     window.location.href = "login.html";
 }
 
-/* Funciones para buscar especialidades */
+
 function obtenerEspecialidades() {
     return JSON.parse(localStorage.getItem("especialidades") || "[]");
 }
 
 console.log(obtenerEspecialidades());
 
-/* Función para obtener el siguiente ID */
+
 function obtenerSiguienteId() {
     const especialidades = obtenerEspecialidades();
 
@@ -26,12 +27,10 @@ function obtenerSiguienteId() {
     return ultimoID.id + 1;
 }
 
-/* Función para guardar especialidades en LocalStorage */
 function guardarEspecialidades(especialidades) {
     localStorage.setItem("especialidades", JSON.stringify(especialidades));
 }
 
-/* Función para guardar especialidades */
 function agregarEspecialidad(especialidad) {
 
     especialidad.id = obtenerSiguienteId();
@@ -47,12 +46,12 @@ function agregarEspecialidad(especialidad) {
 
 function buscarEspecialidadporid(id) {
     const especialidades = obtenerEspecialidades();
-    return especialidades.find(o => o.id === id);
+    return especialidades.find(e => e.id === id);
 }
 
 function actualizarEspecialidad(id, datosActualizados) {
     const especialidades = obtenerEspecialidades();
-    const indice = especialidades.findIndex(o => o.id === id);
+    const indice = especialidades.findIndex(e => e.id === id);
 
     if (indice !== -1) {
         especialidades[indice] = {
@@ -61,7 +60,11 @@ function actualizarEspecialidad(id, datosActualizados) {
         };
         guardarEspecialidades(especialidades);
         console.log("Especialidad actualizada correctamente:", especialidades[indice]);
-        window.location.href = "listarProfesionales.html";
+        
+        mostrarEspecialidades();
+        form.reset();
+        form.querySelector("button[type='submit']").textContent = "Guardar Especialidad"
+
     } else {
         console.log("No se encontró una especialidad con ese id.");
     }
@@ -73,98 +76,65 @@ function editarEspecialidad(id) {
     if (especialidad) {
         document.getElementById("id").value = especialidad.id;
         document.getElementById("nombre").value = especialidad.nombre;
-        document.getElementById("nombre").value = especialidad.descripcion;
+        document.getElementById("descripcion").value = especialidad.descripcion;
+        form.querySelector("button[type='submit']").textContent = "Guardar cambios"
 
     } else {
-        console.log("No se encontró una obra social con ese id.");
-        alert(`No se encontró una obra social con ese id: ${id}.`);
+        console.log("No se encontró una esecialidad con ese id.");
+        alert(`No se encontró una especialidad con ese id: ${id}.`);
     }
 }
 
 function guardarCambios() {
     const id = document.getElementById("id").value.trim();
     const nombre = document.getElementById("nombre").value.trim();
-    const descripcion = document.getElementById("descripción").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
 
     const datosActualizados = {
         nombre,
         descripcion,
-        dni,
 
     };
 
     actualizarEspecialidad(id, datosActualizados);
 }
-/* Manejo del formulario */
+
 function crearEspecialidad(e) {
     e.preventDefault();
+
+    if (form.querySelector("button[type= 'submit']").textContent === "Guardar cambios") {
+        guardarCambios();
+        return;
+    }
 
     console.log('Muestro en consola las especialidades antes de guardar el Nuevo', obtenerEspecialidades());
 
     const nombre = document.getElementById("nombre").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
 
-    if (!nombre) {
+    if (!nombre || !descripcion) {
         alert('Por favor completa los campos requeridos');
         return;
     }
 
-    /* alert(
-        `especialidad registrada:\n\n` +
-        `nombre: ${nombre}\n`
-    ); */
-
     const nuevaEspecialidad = {
         nombre: nombre,
+        descripcion: descripcion
     };
 
     agregarEspecialidad(nuevaEspecialidad);
 
     form.reset();
+
+    mostrarEspecialidades();
 };
 
 if (form) {
     form.addEventListener("submit", crearEspecialidad);
 }
 
-const cardEspecialidades = document.querySelector('#cardEspecialidades')
-
-let flagIndex = null;
-
-function actualizarTabla() {
-    let especialidades = JSON.parse(localStorage.getItem('especialidades')) || [];
-    cardEspecialidades.innerHTML = '';
-
-    console.log(especialidades)
-    especialidades.forEach(function (especialidad, index) {
-        let fila = document.createElement('div');
-        fila.classList.add('col');
-        fila.innerHTML = `
-            <div class="card h-100 profesional-card">
-                <div class="card-body">
-                    <h5 class="card-title">${especialidad.nombre}</h5>
-                    <p class="card-text">${especialidad.descripcion}</p>
-                    <a href="formularioMedicosEditar.html?id=${especialidad.id}" class="btn btn-primary">Editar</a>
-                </div>
-            </div>
-        `;
-        cardEspecialidades.appendChild(fila);
-    })
-
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    if (!sessionStorage.getItem('token')) {
-        alert("Debe loguearse");
-        window.location.href = '../login.html';
-        return;
-    }
-})
-
-if (cardEspecialidades) {
-    actualizarTabla();
-}
-
 function eliminarEspecialidad(id) {
+    console.log(id)
     const especialidades = obtenerEspecialidades();
     const nuevasEspecialidades = especialidades.filter(e => e.id !== id);
 
@@ -175,10 +145,40 @@ function eliminarEspecialidad(id) {
 
     guardarEspecialidades(nuevasEspecialidades);
     console.log("Especialidad eliminada correctamente.");
+
+    mostrarEspecialidades();
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-    /* session */
+function mostrarEspecialidades() {
+    const especialidades = obtenerEspecialidades();
+
+    tablaEspecialidades.innerHTML = ""
+    especialidades.forEach((os, index) => {
+        const fila = document.createElement("tr")
+
+        fila.innerHTML = `
+            <td>${os.id}</td>
+            <td>${os.nombre}</td>
+            <td>${os.descripcion}</td>
+            <td> 
+                <button class="btn btn-danger btn-sm" onclick="eliminarEspecialidad(${os.id})">Eliminar</button>
+                <button class="btn btn-primary btn-sm" onclick="editarEspecialidad(${os.id})">Editar</button>
+            </td>`
+
+    tablaEspecialidades.appendChild(fila)
+    })
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+
+    if (!sessionStorage.getItem('token')) {
+        alert("Debe loguearse");
+        window.location.href = '../login.html';
+        return;
+    }
+
+    mostrarEspecialidades()
+
     const navSesion = document.getElementById("navSesion");
     const usuario = sessionStorage.getItem("usuarioLogueado");
 
@@ -202,37 +202,4 @@ window.addEventListener("DOMContentLoaded", () => {
     `;
     }
 
-    /* fin session */
-    const btnEliminar = document.getElementById("btnEliminar");
-
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-
-    if (id) {
-        editarEspecialidad(id);
-
-        // Guardar cambios
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            guardarCambios();
-
-            if (mensaje) {
-                mensaje.classList.remove("d-none");
-                setTimeout(() => mensaje.classList.add("d-none"), 3000);
-            }
-        });
-
-        // Eliminar especialidad
-        if (btnEliminar) {
-            btnEliminar.addEventListener("click", function () {
-                if (confirm("¿Seguro que querés eliminar esta especialidad?")) {
-                    eliminarEspecialidad(id);
-                    alert("Especialidad eliminada correctamente.");
-                    window.location.href = "formularioMedicos.html";
-                }
-            });
-        } else {
-            return;
-        }
-    }
 });
