@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', async() =>{
                 fila.innerHTML =  `
                     <td class="card-title">${element.firstName}</td>
                     <td class="card-text">${element.username}</td>
-                    <td class="card-text">Tel.:${element.email}</td>
-                    <td class="card-text">E-mail:${element.phone}</td>
+                    <td class="card-text">E-mail:${element.email}</td>
+                    <td class="card-text">Tel.:${element.phone}</td>
         `;
         tablaUsuariosBody.appendChild(fila);
             });
