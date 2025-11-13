@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     tarjeta.className = "col-12 col-md-6 col-lg-4 d-flex"
 
     tarjeta.innerHTML = `
-      <div class="card w-100">
-        <img src="${medico.foto}" class="card-img-top" alt="${medico.nombre}">
+      <div class="profesional-card card w-100">
+        <img src="${medico.imagen}" class="card-img-top" alt="${medico.nombre}">
         <div class="card-body">
           <h3 class="card-title">${medico.nombre}</h3>
           <p class="card-text">Especialidad: ${medico.especialidad}</p>

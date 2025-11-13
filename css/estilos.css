@@ -7,6 +7,10 @@ body {
     line-height: 1.6;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 /* header */
 
 .navbar-nav .nav-link {
@@ -117,28 +121,6 @@ h2 {
     text-align: center;
 }
 
-
-
-/*hr {
-    border: none;
-    height: 1px;
-    background-color: #dee2e6;
-    margin: 3rem 0;
-}*/
-
-/*.valores-lista {
-    list-style-type: none;
-    padding: 0;
-}*/
-
-/*.valores-lista li {
-    background-color: #e9f5ff;
-    border-left: 5px solid #007BFF;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 4px;
-}*/
-
 /* estilos para la página "Contactos" */
 .contacto-info {
     display: flex;
@@ -166,15 +148,43 @@ h2 {
     color: #28a745;
 }
 
+.card-img-top {
+    max-height: 200px;
+    object-fit: contain;
+    width: 100%;
+}
+
+.profesional-card {
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.profesional-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
 footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
     background-color: #007BFF;
     color: #fff;
     text-align: center;
-    padding: 1rem;
+    padding: 0.5rem;
     margin-top: 2rem;
+    width: 100%;
 }
 
 footer p {
     margin: 0;
 
+}
+
+.panel-link {
+    transition: .5s;
+}
+
+.panel-link:hover {
+    color: #ffeb3b;
+    transform: scale(1.05);
 }

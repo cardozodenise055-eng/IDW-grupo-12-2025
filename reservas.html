@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabla Lista de Reservas</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <!-- Font Awesome para íconos -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+          <a class="navbar-brand fw-bold" href="index.html">
+            Centro de Salud - IDW S.A.
+          </a>
+          <div>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="panel.html">Panel ADMIN</a>
+              </li>
+              <li class="nav-item" id="navSesion"></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="container">
+      <!-- FILTRO POR DNI -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Buscar por DNI</label>
+              <input
+                type="text"
+                id="filtroDni"
+                class="form-control"
+                placeholder="Ej: 40123456"
+                onkeyup="filtrarReservas()"
+              />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+              <button class="btn btn-primary w-100" onclick="cargarReservas()">
+                Actualizar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA LISTADO DE RESERVAS -->
+      <div class="table-responsive">
+        <table
+          class="table table-striped table-hover align-middle"
+          id="tablaReservas"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th>DNI</th>
+              <th>Paciente</th>
+              <th>Médico</th>
+              <th>Especialidad</th>
+              <th>Fecha y Hora</th>
+              <th>Costo</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpoTabla"></tbody>
+        </table>
+      </div>
+
+      <div id="sinDatos" class="text-center text-muted py-5 d-none">
+        <h5>No hay reservas aún</h5>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 IDW</p>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="js/login.js"></script>
+    <script src="js/reservas.js"></script>
+
+    <script>
+      const usuario = sessionStorage.getItem("usuarioLogueado");
+
+      if (!usuario) {
+        window.location.href = "login.html";
+      }
+    </script>
+  </body>
+</html>

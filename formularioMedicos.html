@@ -38,6 +38,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="formularioMedicos.html">Alta Medicos</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="listarProfesionales.html">Listar Profesionales</a>
+                        </li>
+                        <li class="nav-item" id="navSesion"></li>                        
                     </ul>
                 </div>
             </div>
@@ -69,6 +73,12 @@
                     <input type="email" class="form-control" id="email" placeholder="Ej: dr.juan@centromedico.com"
                         required>
                 </div>
+
+                <div class="mb-3">
+                    <label for="dni" class="form-label">DNI</label>
+                    <input type="text" class="form-control" id="dni" placeholder="Ej: 12345678" required>
+                </div>
+
                 <div class="mb-3">
                     <label for="obraSocial" class="form-label">Obra Social</label>
                     <input type="text" class="form-control" id="obraSocial" placeholder="Ej: Omint, Osdepym" required>
@@ -121,6 +131,7 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
     </script>
     <script src="js/crud_medicos.js"></script>
+    <script type="module" src="js/login.js"></script>
 </body>
 
 </html>
