@@ -1,5 +1,7 @@
 const form = document.getElementById("formMedico");
 const mensaje = document.getElementById("mensaje");
+const selectOS = document.getElementById('obrasSociales');
+const selectEspecialidades = document.getElementById('especialidades');
 
 const usuario = sessionStorage.getItem("usuarioLogueado");
 
@@ -12,9 +14,22 @@ function obtenerMedicos() {
     return JSON.parse(localStorage.getItem("medicos"));
 }
 
+function obtenerOS() {
+    return JSON.parse(localStorage.getItem("obrasSociales"));
+}
+
+function obtenerEspecialidades() {
+    return JSON.parse(localStorage.getItem("especialidades"));
+}
+
 /* Función para obtener el siguiente ID */
 function obtenerSiguienteId() {
     const medicos = obtenerMedicos();
+
+    if (medicos.length === 0) {
+        return 1;
+    }
+
     const ultimoID = medicos[medicos.length - 1];
     return ultimoID.id + 1;
 }
@@ -65,12 +80,12 @@ function editarMedico(dni) {
     const medico = buscarMedicoPorDni(dni);
 
     if (medico) {
+        console.log("Médico encontrado:", medico);
         document.getElementById("dni").value = medico.dni;
         document.getElementById("nombre").value = medico.nombre;
-        document.getElementById("especialidad").value = medico.especialidad;
         document.getElementById("telefono").value = medico.telefono;
         document.getElementById("email").value = medico.email;
-        document.getElementById("obraSocial").value = medico.obraSocial;
+        document.getElementById("valor_consulta").value = medico.valor_consulta;
     } else {
         console.log("No se encontró un médico con ese DNI.");
         alert(`No se encontró un médico con ese DNI: ${dni}.`);
@@ -80,22 +95,31 @@ function editarMedico(dni) {
 function guardarCambios() {
     const dni = document.getElementById("dni").value.trim();
     const nombre = document.getElementById("nombre").value.trim();
-    const especialidad = document.getElementById("especialidad").value.trim();
     const telefono = document.getElementById("telefono").value.trim();
     const email = document.getElementById("email").value.trim();
-    const obraSocial = document.getElementById("obraSocial").value.trim();
+    const valor_consulta = document.getElementById("valor_consulta").value.trim();
+
+    const opcionesSeleccionadasOS = Array.from(selectOS.selectedOptions);
+
+    const idsSeleccionadosOS = opcionesSeleccionadasOS.map(option => parseInt(option.value));
+
+    const opcionesSeleccionadasEs = Array.from(selectEspecialidades.selectedOptions);
+
+    const idsSeleccionadosEs = opcionesSeleccionadasEs.map(option => parseInt(option.value));
 
     const datosActualizados = {
         nombre,
-        especialidad,
         telefono,
         email,
         dni,
-        obraSocial
+        especialidad: idsSeleccionadosEs,
+        obraSocial: idsSeleccionadosOS,
+        valor_consulta,
     };
 
     actualizarMedico(dni, datosActualizados);
 }
+
 /* Manejo del formulario */
 function crearMedico(e) {
     e.preventDefault();
@@ -104,13 +128,21 @@ function crearMedico(e) {
 
     const archivo = document.getElementById("imagen").files[0];
     const nombre = document.getElementById("nombre").value.trim();
-    const especialidad = document.getElementById("especialidad").value.trim();
     const telefono = document.getElementById("telefono").value.trim();
     const email = document.getElementById("email").value.trim();
     const dni = document.getElementById("dni").value.trim();
-    const obraSocial = document.getElementById("obraSocial").value.trim();
+    const valor_consulta = document.getElementById("valor_consulta").value.trim();
 
-    if (!nombre || !especialidad || !obraSocial) {
+    const opcionesSeleccionadasOS = Array.from(selectOS.selectedOptions);
+
+    const idsSeleccionadosOS = opcionesSeleccionadasOS.map(option => parseInt(option.value));
+
+    const opcionesSeleccionadasEs = Array.from(selectEspecialidades.selectedOptions);
+
+    const idsSeleccionadosEs = opcionesSeleccionadasEs.map(option => parseInt(option.value));
+
+
+    if (!nombre || !telefono || !email || !dni || !idsSeleccionadosOS || !idsSeleccionadosEs) {
         alert('Por favor completa los campos requeridos');
         return;
     }
@@ -128,20 +160,21 @@ function crearMedico(e) {
         alert(
             `medico registrado:\n\n` +
             `nombre: ${nombre}\n` +
-            `especialidad: ${especialidad}\n` +
-            `dni: ${dni}\n` +
-            `obrasocial: ${obraSocial}\n`
+            `dni: ${dni}\n`
         );
 
         const nuevoMedico = {
             nombre: nombre,
-            especialidad: especialidad,
+            especialidad: idsSeleccionadosEs,
             telefono: telefono,
             email: email,
             dni: dni,
-            obraSocial: obraSocial,
+            obraSocial: idsSeleccionadosOS,
+            valor_consulta: valor_consulta,
             imagen: imagenBase64
         };
+
+        console.log(nuevoMedico);
 
         agregarMedico(nuevoMedico);
 
@@ -183,10 +216,10 @@ function actualizarTabla() {
 
 }
 
-document.addEventListener('DOMContentLoaded',() =>{
-    if(!sessionStorage.getItem('token')){
+document.addEventListener('DOMContentLoaded', () => {
+    if (!sessionStorage.getItem('token')) {
         alert("Debe loguearse");
-        window.location.href='../login.html';
+        window.location.href = '../login.html';
         return;
     }
 })
@@ -209,6 +242,38 @@ function eliminarMedico(dni) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+
+    if (selectOS && selectEspecialidades) {
+        const obrasSocialesJSON = obtenerOS();
+
+        function llenarSelectObrasSociales() {
+            obrasSocialesJSON.forEach(os => {
+                const option = document.createElement('option');
+                // Usamos el 'id' como valor y el 'Nombre' como texto visible
+                option.value = os.id;
+                option.textContent = os.Nombre + ' (' + os.Descripcion + ')';
+                selectOS.appendChild(option);
+            });
+        }
+
+        llenarSelectObrasSociales();
+
+
+        const especialidadesJSON = obtenerEspecialidades();
+
+        function llenarSelectEspecialidades() {
+            especialidadesJSON.forEach(os => {
+                const option = document.createElement('option');
+                // Usamos el 'id' como valor y el 'Nombre' como texto visible
+                option.value = os.id;
+                option.textContent = os.Nombre;
+                selectEspecialidades.appendChild(option);
+            });
+        }
+
+        llenarSelectEspecialidades();
+    }
+
     /* session */
     const navSesion = document.getElementById("navSesion");
     const usuario = sessionStorage.getItem("usuarioLogueado");
@@ -260,9 +325,9 @@ window.addEventListener("DOMContentLoaded", () => {
         if (btnEliminar) {
             btnEliminar.addEventListener("click", function () {
                 if (confirm("¿Seguro que querés eliminar este médico?")) {
-                    eliminarMedico(dni);
                     alert("Médico eliminado correctamente.");
-                    window.location.href = "formularioMedicos.html";
+                    eliminarMedico(dni);
+                    window.location.href = "listarProfesionales.html";
                 }
             });
         } else {

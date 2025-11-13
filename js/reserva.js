@@ -1,11 +1,17 @@
 
 const medicos = JSON.parse(localStorage.getItem("medicos")) || [];
+const obraSociales = JSON.parse(localStorage.getItem("obrasSociales")) || [];
 
 const selectEspecialidad = document.getElementById("selectEspecialidad");
 const selectMedico = document.getElementById("selectMedico");
+const selectOS = document.getElementById("selectOS");
 const precioMedicoP = document.getElementById("precioMedico");
 
 const getMedicoDNI = (m) => m.dni ?? m.DNI ?? null;
+
+function obtenerEspecialidades() {
+  return JSON.parse(localStorage.getItem("especialidades"));
+}
 
 const getMedicoNombreDisplay = (m) => {
   if (m.Apellido && m.Nombre) return `${m.Apellido} ${m.Nombre}`;
@@ -15,26 +21,24 @@ const getMedicoNombreDisplay = (m) => {
   return "Médico sin nombre";
 };
 
-const getMedicoEspecialidad = (m) =>
-  m.especialidad ?? m.Especialidad ?? m.specialty ?? "";
+const getMedicoEspecialidad = (m) => m.especialidad ?? m.Especialidad ?? m.specialty ?? "";
 
 function cargarEspecialidadesDesdeMedicos() {
   if (!selectEspecialidad) return;
 
-  const especialidades = Array.from(
-    new Set(medicos.map((m) => getMedicoEspecialidad(m)).filter((s) => s))
-  );
+  const especialidadesJSON = obtenerEspecialidades();
 
   selectEspecialidad.innerHTML = `<option value="">Seleccione una especialidad...</option>`;
 
-  especialidades.forEach((esp) => {
+  especialidadesJSON.forEach((esp) => {
+    console.log(esp);
     const opt = document.createElement("option");
-    opt.value = esp;
-    opt.textContent = esp;
+    opt.value = esp.id;
+    opt.textContent = esp.Nombre;
     selectEspecialidad.appendChild(opt);
   });
 
-  if (especialidades.length === 0) {
+  if (especialidadesJSON.length === 0) {
     selectEspecialidad.innerHTML = `<option value="">No hay especialidades cargadas</option>`;
   }
 }
@@ -42,14 +46,15 @@ function cargarEspecialidadesDesdeMedicos() {
 function filtrarMedicos() {
   if (!selectMedico) return;
 
-  const especialidadSeleccionada = selectEspecialidad.value;
+  const especialidadSeleccionada = parseInt(selectEspecialidad.value);
   selectMedico.innerHTML = `<option value="">Seleccione un médico...</option>`;
 
   if (!especialidadSeleccionada) return;
 
-  const medicosFiltrados = medicos.filter(
-    (m) => getMedicoEspecialidad(m) === especialidadSeleccionada
-  );
+  const medicosFiltrados = medicos.filter(medico => {
+    return medico.especialidad && medico.especialidad.includes(especialidadSeleccionada);
+  });
+  console.log(medicosFiltrados);
 
   if (medicosFiltrados.length === 0) {
     selectMedico.innerHTML = `<option value="">No hay médicos para esta especialidad</option>`;
@@ -58,32 +63,52 @@ function filtrarMedicos() {
 
   medicosFiltrados.forEach((m) => {
     const opt = document.createElement("option");
-    opt.value = getMedicoDNI(m); 
-    opt.textContent = `${getMedicoNombreDisplay(m)}${m.obraSocial ? " — " + m.obraSocial : ""}`;
+    opt.value = m.id; 
+    opt.textContent = `${getMedicoNombreDisplay(m)}`;
     selectMedico.appendChild(opt);
   });
 
   if (precioMedicoP) precioMedicoP.textContent = "";
 }
-function mostrarPrecio() {
-  const dniMedico = selectMedico.value;
-  if (!dniMedico) {
-    if (precioMedicoP) precioMedicoP.textContent = "";
-    return;
-  }
 
-  const medico = medicos.find((m) => String(getMedicoDNI(m)) === String(dniMedico));
+function buscarMedico(id) {
+  // Usamos find() para iterar sobre el arreglo y detenernos en el primer elemento
+  // donde el id del médico coincida con el id buscado.
+  return medicos.find(medico => medico.id === id);
+}
 
-  if (!medico) {
-    if (precioMedicoP) precioMedicoP.textContent = "";
-    console.warn("Médico no encontrado:", dniMedico);
-    return;
-  }
+function filtrarObraSocial() {
 
-  const precio = medico.precio ?? medico.valor ?? medico.Valor ?? medico.price ?? null;
-  precioMedicoP.textContent = precio != null ? `Precio: $${precio}` : "Precio: (no definido)";
+  if (!selectOS) return;
 
   mostrarTurnosDisponibles();
+
+  const IDmedicoSeleccionado = parseInt(selectMedico.value);
+  selectOS.innerHTML = `<option value="">Seleccione una Obra Social...</option>`;
+
+  if (!IDmedicoSeleccionado) return;
+
+  const medicoSeleccionado = buscarMedico(IDmedicoSeleccionado);
+  const idsOSAtendidosPorMedico = medicoSeleccionado.obraSocial;
+
+  const obrasSocialesFiltradas = obraSociales.filter(os => {
+    return idsOSAtendidosPorMedico.includes(os.id);
+  });
+  console.log(obrasSocialesFiltradas);
+
+  if (obrasSocialesFiltradas.length === 0) {
+    selectOS.innerHTML = `<option value="">No hay OS para este Medico</option>`;
+    return;
+  }
+
+  obrasSocialesFiltradas.forEach((os) => {
+    const opt = document.createElement("option");
+    opt.value = os.id;
+    opt.textContent = `${os.Nombre} (${os.Descripcion})`;
+    selectOS.appendChild(opt);
+  });
+
+  if (precioMedicoP) precioMedicoP.textContent = "";
 }
 
 function generarPosiblesTurnos(dias = 7) {
@@ -110,13 +135,15 @@ function mostrarTurnosDisponibles() {
   if (!selectTurno) return;
   selectTurno.innerHTML = `<option value="">Seleccione día y hora...</option>`;
 
-  const dniMedico = selectMedico.value;
-  if (!dniMedico) return;
+  const idMedico = selectMedico.value;
+  if (!idMedico) return;
 
-  const reservas = JSON.parse(localStorage.getItem("reservas")) || [];
-  const reservasMedico = reservas.filter(
-    (r) => String(r.dniMedico) === String(dniMedico)
-  );
+  console.log('139', idMedico);
+
+  const turnos = JSON.parse(localStorage.getItem("turnos")) || [];
+  const reservasMedico = turnos.filter(t => t.medicoId == idMedico);
+
+  console.log('144', reservasMedico)
 
   const posiblesTurnos = generarPosiblesTurnos(7);
 
