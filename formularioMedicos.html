@@ -14,13 +14,19 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
             <div class="container">
+
+         
                 <a class="navbar-brand fw-bold" href="index.html">
                     Centro de Salud - IDW S.A.
                 </a>
+
+            
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
                     aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+        
                 <div class="collapse navbar-collapse" id="menuNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
@@ -79,6 +85,11 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="precio" class="form-label">Precio</label>
+                    <input type="text" class="form-control" id="precio" placeholder="Ej: Precio" required>
+                </div>
+
+                <div class="mb-3">
                     <label for="imagen" class="form-label">Foto del médico</label>
                     <input type="file" class="form-control" id="imagen" accept="image/*" required>
                 </div>
@@ -92,6 +103,25 @@
 
             <div id="mensaje" class="alert alert-success mt-4 text-center d-none">Médico guardado correctamente ✅</div>
         </div>
+
+        <section>
+            <h3 class="mb-3">Listado de Médicos</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle" id="tablaMedicos">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Nombre y Apellido</th>
+                            <th>Especialidad</th>
+                            <th>Teléfono</th>
+                            <th>Obras Sociales</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </main>
 
     <footer>
