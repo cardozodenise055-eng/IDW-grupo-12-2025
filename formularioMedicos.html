@@ -14,28 +14,25 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
             <div class="container">
+
+
                 <a class="navbar-brand fw-bold" href="index.html">
                     Centro de Salud - IDW S.A.
                 </a>
+
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
                     aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+
                 <div class="collapse navbar-collapse" id="menuNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="institucional.html">Institucional</a>
+                            <a class="nav-link" href="panel.html">Panel ADMIN</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contacto.html">Contactos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="formularioMedicos.html">Alta Medicos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="listarProfesionales.html">Listar Profesionales</a>
-                        </li>
-                        <li class="nav-item" id="navSesion"></li>                        
+                        <li class="nav-item" id="navSesion"></li>
                     </ul>
                 </div>
             </div>
@@ -54,7 +51,9 @@
 
                 <div class="mb-3">
                     <label for="especialidad" class="form-label">Especialidad</label>
-                    <input type="text" class="form-control" id="especialidad" placeholder="Ej: Cardiología" required>
+                    <select id="especialidades" class="form-control" multiple data-live-search="true"
+                        title="Selecciona una opcion">
+                    </select>
                 </div>
 
                 <div class="mb-3">
@@ -75,7 +74,14 @@
 
                 <div class="mb-3">
                     <label for="obraSocial" class="form-label">Obra Social</label>
-                    <input type="text" class="form-control" id="obraSocial" placeholder="Ej: Omint, Osdepym" required>
+                    <select id="obrasSociales" class="form-control" multiple data-live-search="true"
+                        title="Selecciona una opcion">
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="valor_consulta" class="form-label">Valor consulta</label>
+                    <input type="text" class="form-control" id="valor_consulta" placeholder="Ej: 12345" required>
                 </div>
 
                 <div class="mb-3">

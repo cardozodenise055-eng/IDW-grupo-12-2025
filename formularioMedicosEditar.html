@@ -24,18 +24,7 @@
                 <div class="collapse navbar-collapse" id="menuNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="institucional.html">Institucional</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contacto.html">Contactos</a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="formularioMedicos.html">Alta Medicos</a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="listarProfesionales.html">Listar Profesionales</a>
+                            <a class="nav-link" href="panel.html">Panel ADMIN</a>
                         </li>
                         <li class="nav-item" id="navSesion"></li>
                     </ul>
@@ -61,7 +50,9 @@
 
             <div class="mb-3">
                 <label for="especialidad" class="form-label">Especialidad</label>
-                <input type="text" class="form-control" id="especialidad" required>
+                <select id="especialidades" class="form-control" multiple data-live-search="true"
+                    title="Selecciona una opcion">
+                </select>
             </div>
 
             <div class="mb-3">
@@ -76,7 +67,14 @@
 
             <div class="mb-3">
                 <label for="obraSocial" class="form-label">Obra Social</label>
-                <input type="text" class="form-control" id="obraSocial" required>
+                <select id="obrasSociales" class="form-control" multiple data-live-search="true"
+                    title="Selecciona una opcion">
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="valor_consulta" class="form-label">Valor consulta</label>
+                <input type="text" class="form-control" id="valor_consulta" required>
             </div>
 
             <div class="text-end">
