@@ -51,7 +51,7 @@ function buscarEspecialidadporid(id) {
 
 function actualizarEspecialidad(id, datosActualizados) {
     const especialidades = obtenerEspecialidades();
-    const indice = especialidades.findIndex(e => e.id === id);
+    const indice = especialidades.findIndex(e => e.id == id);
 
     if (indice !== -1) {
         especialidades[indice] = {
@@ -66,11 +66,12 @@ function actualizarEspecialidad(id, datosActualizados) {
         form.querySelector("button[type='submit']").textContent = "Guardar Especialidad"
 
     } else {
-        console.log("No se encontró una especialidad con ese id.");
+        console.log("No se encontró una especialidad con ese id 69.");
     }
 }
 
 function editarEspecialidad(id) {
+    console.log(id)
     const especialidad = buscarEspecialidadporid(id);
 
     if (especialidad) {
@@ -80,7 +81,7 @@ function editarEspecialidad(id) {
         form.querySelector("button[type='submit']").textContent = "Guardar cambios"
 
     } else {
-        console.log("No se encontró una esecialidad con ese id.");
+        console.log("No se encontró una especialidad con ese id.");
         alert(`No se encontró una especialidad con ese id: ${id}.`);
     }
 }
