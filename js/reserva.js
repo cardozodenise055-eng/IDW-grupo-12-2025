@@ -182,7 +182,7 @@ function reservarTurno() {
   const selectEspecialidad = document.getElementById("selectEspecialidad").value;
   const selectOS = document.getElementById("selectOS").value;
   const costo = document.getElementById("costo").value;
-  const descuentos = document.getElementById("descuentos").value;
+  const descuentos = parseInt(25)
 
   if (
     !dniPaciente ||
