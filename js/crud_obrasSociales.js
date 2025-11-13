@@ -8,11 +8,13 @@ if (!usuario) {
     window.location.href = "login.html";
 }
 
+
 function obtenerObrasSociales() {
     return JSON.parse(localStorage.getItem("obrasSociales") || "[]");
 }
 
 console.log(obtenerObrasSociales());
+
 
 function obtenerSiguienteId() {
     const obrasSociales = obtenerObrasSociales();
@@ -48,7 +50,6 @@ function buscarObraSocialporid(id) {
 }
 
 function actualizarObraSocial(id, datosActualizados) {
-
     const obrasSociales = obtenerObrasSociales();
     const indice = obrasSociales.findIndex(o => o.id == id);
 
@@ -59,18 +60,18 @@ function actualizarObraSocial(id, datosActualizados) {
         };
         guardarObrasSociales(obrasSociales);
         console.log("Obra social actualizada correctamente:", obrasSociales[indice]);
-
+        
         mostrarObrasSociales();
         form.reset();
-        form.querySelector("button[type='submit']").textContent = "Guardar Obra Social"
+        form.querySelector("button[type='submit']").textContent = "Guardar Obra social"
 
     } else {
-
-        console.log("No se encontró una obra social con ese id.");
+        console.log("No se encontró una otra social con ese id.");
     }
 }
 
 function editarObraSocial(id) {
+    console.log(id)
     const obraSocial = buscarObraSocialporid(id);
 
     if (obraSocial) {
@@ -93,6 +94,7 @@ function guardarCambios() {
     const datosActualizados = {
         nombre,
         descripcion,
+
     };
 
     actualizarObraSocial(id, datosActualizados);
@@ -101,12 +103,12 @@ function guardarCambios() {
 function crearObraSocial(e) {
     e.preventDefault();
 
-    if (form.querySelector("button[type='submit']").textContent === "Guardar cambios") {
+    if (form.querySelector("button[type= 'submit']").textContent === "Guardar cambios") {
         guardarCambios();
         return;
     }
 
-    console.log('Muestro en consola las obras sociales antes de guardar el Nuevo', obtenerObrasSociales() || []);
+    console.log('Muestro en consola las obras sociales antes de guardar el Nuevo', obtenerObrasSociales());
 
     const nombre = document.getElementById("nombre").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
@@ -159,16 +161,16 @@ function mostrarObrasSociales() {
             <td>${os.id}</td>
             <td>${os.nombre}</td>
             <td>${os.descripcion}</td>
-            <td>
+            <td> 
                 <button class="btn btn-danger btn-sm" onclick="eliminarObraSocial(${os.id})">Eliminar</button>
                 <button class="btn btn-primary btn-sm" onclick="editarObraSocial(${os.id})">Editar</button>
             </td>`
 
-    tablaObrasSociales.appendChild(fila)
+        tablaObrasSociales.appendChild(fila)
     })
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
 
     if (!sessionStorage.getItem('token')) {
         alert("Debe loguearse");
