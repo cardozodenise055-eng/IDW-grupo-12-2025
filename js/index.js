@@ -69,6 +69,10 @@ cargarObrasSociales();
 
 const reservas = localStorage.getItem("reservas") ? JSON.parse(localStorage.getItem("reservas")) : [];
 
+const especialidades = localStorage.getItem("especialidades") ? JSON.parse(localStorage.getItem("especialidades")) : [];
+
+const obraSocial = localStorage.getItem("obrasSociales") ? JSON.parse(localStorage.getItem("obrasSociales")) : [];
+
 const contenedor = document.getElementById("tusreservas");
 const inputDni = document.getElementById("dni");
 
@@ -77,18 +81,27 @@ inputDni.addEventListener("input", () => {
   contenedor.innerHTML = "";
 
   if (dni.length === 8) {
-    const resultados = reservas.filter(r => r.Documento === dni);
+    const resultados = reservas.filter(r => r.documento == dni);
 
     if (resultados.length > 0) {
+
+      console.log("resultados", resultados)
+
       resultados.forEach(r => {
+
+        const especialidad = especialidades.find(e => e.id == r.especialidad);
+        const os = obraSocial.find(os => os.id == r.obraSocial);
+
         const ul = document.createElement("ul");
+
         ul.classList.add("list-group", "mb-3");
+
         ul.innerHTML = `
-            <li class="list-group-item"><strong>Paciente:</strong> ${r["Apellido y nombre del paciente"]}</li>
-            <li class="list-group-item"><strong>Turno N°:</strong> ${r.Turno}</li>
-            <li class="list-group-item"><strong>Especialidad:</strong> ${r.Especialidad}</li>
-            <li class="list-group-item"><strong>Obra social:</strong> ${r["Obra social"]}</li>
-            <li class="list-group-item"><strong>Valor total:</strong> $${r["Valor total"]}</li>
+            <li class="list-group-item"><strong>Paciente:</strong> ${r["apellidoNombre"]}</li>
+            <li class="list-group-item"><strong>Turno N°:</strong> ${r.turno}</li>
+            <li class="list-group-item"><strong>Especialidad:</strong> ${especialidad.Nombre}</li>
+            <li class="list-group-item"><strong>Obra social:</strong> ${os.Nombre}</li>
+            <li class="list-group-item"><strong>Valor total:</strong> $${r["valorTotal"]}</li>
           `;
         contenedor.appendChild(ul);
       });

@@ -1,14 +1,18 @@
 const cargarReservas = () => {
   const reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+  console.log("reservas", reservas);
   const turnos = JSON.parse(localStorage.getItem("turnos")) || [];
+  console.log("turnos", turnos);
   const medicos = JSON.parse(localStorage.getItem("medicos")) || [];
+  console.log("medicos", medicos);
   const especialidades =
     JSON.parse(localStorage.getItem("especialidades")) || [];
+  console.log("especialidades", especialidades);
 
   const cuerpo = document.getElementById("cuerpoTabla");
   cuerpo.innerHTML = "";
 
-  if (reservas.length === 0) {
+  if (reservas.length == 0) {
     console.log("cargando reservas");
     document.getElementById("sinDatos").classList.remove("d-none");
     return;
@@ -17,24 +21,26 @@ const cargarReservas = () => {
   document.getElementById("sinDatos").classList.add("d-none");
 
   reservas.forEach((reserva) => {
-    const turno = turnos.find((t) => t.id == reserva.id);
-    const medico = medicos.find((m) => m.id == turno?.id);
-    const especialidad = especialidades.find(
-      (e) => e.id == reserva.Especialidad
-    );
+    const turno = turnos.find((t) => t.id == reserva.turno);
+    const medico = medicos.find((m) => m.id == turno?.medicoId);
+    const especialidad = especialidades.find((e) => e.id == reserva.especialidad);
+
+    console.log("turno", turno);
+    console.log("medico", medico);
+    console.log("especialidad", especialidad);
 
     if (!turno || !medico || !especialidad) return;
 
     const fila = document.createElement("tr");
 
     fila.innerHTML = `
-          <td><strong>${reserva.Documento}</strong></td>
+          <td><strong>${reserva.documento}</strong></td>
           <td>${reserva.Apellido_y_Nombre}</td>
-          <td>${medico.Apellido} ${medico.Nombre}</td>
+          <td>${medico.nombre}</td>
           <td>${especialidad.Nombre}</td>
-          <td>${formatearFecha(turno.Fecha_y_Hora)}</td>
+          <td>${formatearFecha(turno.fechaHora)}</td>
           <td><span class="badge bg-success">$ ${
-            reserva.Valor_Total
+            reserva.valorTotal
           }</span></td>
           <td>
             <button class="btn btn-danger btn-sm" onclick="cancelarReserva(${
