@@ -1,21 +1,37 @@
-/* Función para guardar obras sociales en LocalStorage */
-function guardarObrasSociales(obrasSociales) {
-    localStorage.setItem("obrasSociales", JSON.stringify(obrasSociales));
-}
-function obtenerObrasSociales() {
-    return JSON.parse(localStorage.getItem("obrasSociales"));
+const form = document.getElementById("formObrasSociales");
+const mensaje = document.getElementById("mensaje");
+const tablaObrasSociales = document.getElementById("tabla-obrassociales");
+
+const usuario = sessionStorage.getItem("usuarioLogueado");
+
+if (!usuario) {
+    window.location.href = "login.html";
 }
 
-/* Función para obtener el siguiente ID */
+function obtenerObrasSociales() {
+    return JSON.parse(localStorage.getItem("obrasSociales") || "[]");
+}
+
+console.log(obtenerObrasSociales());
+
 function obtenerSiguienteId() {
-    const medicos = obtenerObrasSociales();
-    const ultimoID = medicos[medicos.length - 1];
+    const obrasSociales = obtenerObrasSociales();
+
+    if (obrasSociales.length === 0) {
+        return 1;
+    }
+
+    const ultimoID = obrasSociales[obrasSociales.length - 1];
     return ultimoID.id + 1;
 }
 
-/* Función para guardar obras sociales */
+function guardarObrasSociales(obrasSociales) {
+    localStorage.setItem("obrasSociales", JSON.stringify(obrasSociales));
+}
+
 function agregarObraSocial(obraSocial) {
 
+    obraSocial.id = obtenerSiguienteId();
 
     const obrasSociales = obtenerObrasSociales();
     obrasSociales.push(obraSocial);
@@ -26,118 +42,142 @@ function agregarObraSocial(obraSocial) {
     console.log('Muestro en consola las obras sociales después de guardar el Nuevo', obtenerObrasSociales());
 }
 
-function buscarporObraSocial(obraSocial) {
+function buscarObraSocialporid(id) {
     const obrasSociales = obtenerObrasSociales();
-    return obrasSociales.find(e => e.nombre === obraSocial);
+    return obrasSociales.find(o => o.id === id);
 }
 
-function editarObrasSociales(obraSocial) {
-    const obraSocial = buscarporObraSocial(obraSocial);
+function actualizarObraSocial(id, datosActualizados) {
+
+    const obrasSociales = obtenerObrasSociales();
+    const indice = obrasSociales.findIndex(o => o.id == id);
+
+    if (indice !== -1) {
+        obrasSociales[indice] = {
+            ...obrasSociales[indice],
+            ...datosActualizados
+        };
+        guardarObrasSociales(obrasSociales);
+        console.log("Obra social actualizada correctamente:", obrasSociales[indice]);
+
+        mostrarObrasSociales();
+        form.reset();
+        form.querySelector("button[type='submit']").textContent = "Guardar Obra Social"
+
+    } else {
+
+        console.log("No se encontró una obra social con ese id.");
+    }
+}
+
+function editarObraSocial(id) {
+    const obraSocial = buscarObraSocialporid(id);
 
     if (obraSocial) {
+        document.getElementById("id").value = obraSocial.id;
         document.getElementById("nombre").value = obraSocial.nombre;
-    
+        document.getElementById("descripcion").value = obraSocial.descripcion;
+        form.querySelector("button[type='submit']").textContent = "Guardar cambios"
+
     } else {
-        console.log("No se encontró una obra social con ese nombre.");
-        alert(`No se encontró una obra social con el nombre: ${obraSocial}.`);
+        console.log("No se encontró una obra social con ese id.");
+        alert(`No se encontró una obra social con ese id: ${id}.`);
     }
 }
 
 function guardarCambios() {
+    const id = document.getElementById("id").value.trim();
     const nombre = document.getElementById("nombre").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
 
     const datosActualizados = {
         nombre,
-        
+        descripcion,
     };
-    const obraSocialencontrada = buscarporObraSocial(nombre)
 
-    actualizarObraSocial(obraSocialencontrada.id, datosActualizados);
+    actualizarObraSocial(id, datosActualizados);
 }
 
-function actualizarObraSocial(id, datosActualizados) {
-    const obraSocial = obtenerObrasSociales();
-    const indice = obraSocial.findIndex(e => e.id === id);
-
-    if (indice !== -1) {
-        obraSocial[indice] = {
-            ...obraSocial[indice],
-            ...datosActualizados
-        };
-        guardarObrasSociales(obraSocial);
-        console.log("obra social actualizada correctamente:", obraSocial[indice]);
-        window.location.href = "listarProfesionales.html";
-    } else {
-        console.log("No se encontró una obra social.");
-    }
-}
-/* Manejo del formulario */
 function crearObraSocial(e) {
     e.preventDefault();
 
-    console.log('Muestro en consola las obras sociales antes de guardar el Nuevo', obtenerObrasSociales());
+    if (form.querySelector("button[type='submit']").textContent === "Guardar cambios") {
+        guardarCambios();
+        return;
+    }
 
-    const obraSocial = document.getElementById("obra social").value.trim();
-  
+    console.log('Muestro en consola las obras sociales antes de guardar el Nuevo', obtenerObrasSociales() || []);
 
-    if (!nombre || !obraSocial ) {
+    const nombre = document.getElementById("nombre").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
+
+    if (!nombre || !descripcion) {
         alert('Por favor completa los campos requeridos');
         return;
     }
 
-    if (!archivo) {
-        alert("Debe seleccionar una imagen del médico");
-        return;
-    }
-
-    const lector = new FileReader();
-
-    lector.onloadend = () => {
-        const imagenBase64 = lector.result;
-
-        alert(
-            `obra social registrada:\n\n` 
-        
-        );
-
-        const nuevasObrasSociales = {
-            nombre: nombre,
-            
-        };
-
-        agregarObraSocial(nuevasObrasSociales);
-
-        form.reset();
+    const nuevaObraSocial = {
+        nombre: nombre,
+        descripcion: descripcion
     };
 
-    lector.readAsDataURL(archivo);
-}
+    agregarObraSocial(nuevaObraSocial);
+
+    form.reset();
+
+    mostrarObrasSociales();
+};
 
 if (form) {
     form.addEventListener("submit", crearObraSocial);
 }
 
-const cardObrasSociales = document.querySelector('#cardObrasSociales')
+function eliminarObraSocial(id) {
+    console.log(id)
+    const obrasSociales = obtenerObrasSociales();
+    const nuevasObrasSociales = obrasSociales.filter(o => o.id !== id);
 
-let flagIndex = null;
-
-
-function eliminarObraSocial() {
-    const obraSocial = obtenerObrasSociales();
-    const nuevasObrasSociales = obraSocial.filter(e => e.nombre !== nombre);
-
-    if (nuevasObrasSociales.length === obraSocial.length) {
-        console.log("No se encontró una obra social con ese nombre.");
+    if (nuevasObrasSociales.length === obrasSociales.length) {
+        console.log("No se encontró una obra social con ese id.");
         return;
     }
-    
 
     guardarObrasSociales(nuevasObrasSociales);
-    console.log("Obra Social eliminada correctamente.");
+    console.log("Obra social eliminada correctamente.");
+
+    mostrarObrasSociales();
+}
+
+function mostrarObrasSociales() {
+    const obrasSociales = obtenerObrasSociales();
+
+    tablaObrasSociales.innerHTML = ""
+    obrasSociales.forEach((os, index) => {
+        const fila = document.createElement("tr")
+
+        fila.innerHTML = `
+            <td>${os.id}</td>
+            <td>${os.nombre}</td>
+            <td>${os.descripcion}</td>
+            <td>
+                <button class="btn btn-danger btn-sm" onclick="eliminarObraSocial(${os.id})">Eliminar</button>
+                <button class="btn btn-primary btn-sm" onclick="editarObraSocial(${os.id})">Editar</button>
+            </td>`
+
+    tablaObrasSociales.appendChild(fila)
+    })
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    /* session */
+
+    if (!sessionStorage.getItem('token')) {
+        alert("Debe loguearse");
+        window.location.href = '../login.html';
+        return;
+    }
+
+    mostrarObrasSociales()
+
     const navSesion = document.getElementById("navSesion");
     const usuario = sessionStorage.getItem("usuarioLogueado");
 
@@ -159,43 +199,6 @@ window.addEventListener("DOMContentLoaded", () => {
         Iniciar sesión
       </a>
     `;
-    }
-
-    /* fin session */
-
-    const form = document.getElementById("formObrasSociales");
-    const mensaje = document.getElementById("mensaje");
-    const btnEliminar = document.getElementById("btnEliminar");
-
-    const params = new URLSearchParams(window.location.search);
-    const obraSocial = params.get("obraSocial");
-
-    if (obraSocial) {
-        editarObrasSociales(obraSocial);
-
-        // Guardar cambios
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            guardarCambios();
-
-            if (mensaje) {
-                mensaje.classList.remove("d-none");
-                setTimeout(() => mensaje.classList.add("d-none"), 3000);
-            }
-        });
-
-        // Eliminar obra social
-        if (btnEliminar) {
-            btnEliminar.addEventListener("click", function () {
-                if (confirm("¿Seguro que querés eliminar esta obra social?")) {
-                    eliminarObraSocial(obraSocial);
-                    alert("Obra social eliminada correctamente.");
-                    window.location.href = "formularioMedicos.html";
-                }
-            });
-        } else {
-            return;
-        }
     }
 
 });

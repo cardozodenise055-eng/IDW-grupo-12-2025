@@ -10,12 +10,10 @@ document.addEventListener('DOMContentLoaded', async() =>{
             usuarios.forEach((element) => {
                 const fila = document.createElement('tr');
                 fila.innerHTML =  `
-                    <h5 class="card-title">${element.firstName}</h5>
-                    <p class="card-text">${element.username}</p>
-                    <p class="card-text">Tel.:${element.email}</p>
-                    <p class="card-text">E-mail:${element.phone}</p>
-                    </div>
-                    </div>
+                    <td class="card-title">${element.firstName}</td>
+                    <td class="card-text">${element.username}</td>
+                    <td class="card-text">E-mail:${element.email}</td>
+                    <td class="card-text">Tel.:${element.phone}</td>
         `;
         tablaUsuariosBody.appendChild(fila);
             });

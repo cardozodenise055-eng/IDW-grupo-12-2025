@@ -1,50 +1,176 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Panel</title>
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    />
-    <!-- Font Awesome para íconos -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/estilos.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css"
-    />
-    <link rel="stylesheet" href="css/estilos.css" />
-  </head>
 
-  <body>
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-        <div class="container">
-          <a class="navbar-brand fw-bold" href="index.html">
-            Centro de Salud - IDW S.A.
-          </a>
-          <div>
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item" id="navSesion"></li>
-            </ul>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+  <!-- Font Awesome para íconos -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/estilos.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css" />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #007BFF !important;">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">
+          Centro de Salud - IDW S.A.
+        </a>
+        <div>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item" id="navSesion"></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="grey-bg container-fluid">
+      <section id="minimal-statistics">
+        <div class="row">
+          <div class="panel-link col-xl-3 col-sm-6 col-12">
+            <a href="formularioMedicos.html">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="media d-flex">
+                      <div class="align-self-center">
+                        <i class="icon-user-follow primary font-large-2 float-left"></i>
+                      </div>
+                      <div class="media-body text-right">
+                        <h3>Alta</h3>
+                        <span>Medicos</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="panel-link col-xl-3 col-sm-6 col-12">
+            <a href="listarProfesionales.html">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="media d-flex">
+                      <div class="align-self-center">
+                        <i class="icon-folder-alt primary font-large-2 float-left"></i>
+                      </div>
+                      <div class="media-body text-right">
+                        <h3>Listar</h3>
+                        <span>Profesionales</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="panel-link col-xl-3 col-sm-6 col-12">
+            <a href="usuarios.html">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="media d-flex">
+                      <div class="align-self-center">
+                        <i class="icon-pencil primary font-large-2 float-left"></i>
+                      </div>
+                      <div class="media-body text-right">
+                        <h3>Listar</h3>
+                        <span>Usuarios</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="panel-link col-xl-3 col-sm-6 col-12">
+            <a href="Especialidades.html">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="media d-flex">
+                      <div class="align-self-center">
+                        <i class="icon-pencil primary font-large-2 float-left"></i>
+                      </div>
+                      <div class="media-body text-right">
+                        <h3>Alta</h3>
+                        <span>Especialidades</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="panel-link col-xl-3 col-sm-6 col-12">
+            <a href="ObrasSociales.html">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="media d-flex">
+                      <div class="align-self-center">
+                        <i class="icon-pencil primary font-large-2 float-left"></i>
+                      </div>
+                      <div class="media-body text-right">
+                        <h3>Alta</h3>
+                        <span>Obra Social</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="panel-link col-xl-3 col-sm-6 col-12">
+            <a href="turnos.html">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="media d-flex">
+                      <div class="align-self-center">
+                        <i class="icon-pencil primary font-large-2 float-left"></i>
+                      </div>
+                      <div class="media-body text-right">
+                        <h3>Ver</h3>
+                        <span>Turnos</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="panel-link col-xl-3 col-sm-6 col-12">
+            <a href="reservas.html">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="media d-flex">
+                      <div class="align-self-center">
+                        <i class="icon-pencil primary font-large-2 float-left"></i>
+                      </div>
+                      <div class="media-body text-right">
+                        <h3>Ver</h3>
+                        <span>Reservas</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
           </div>
         </div>
       </nav>
@@ -205,21 +331,20 @@
       </div>
     </main>
 
-    <footer>
-      <p>&copy; 2025 IDW</p>
-    </footer>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-    <script type="module" src="js/login.js"></script>
-    <script>
-      const usuario = sessionStorage.getItem("usuarioLogueado");
+  <footer>
+    <p>&copy; 2025 IDW</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+  </script>
+  <script type="module" src="js/login.js"></script>
+  <script>
+    const usuario = sessionStorage.getItem("usuarioLogueado");
 
-      if (!usuario) {
-        window.location.href = "login.html";
-      }
-    </script>
-  </body>
+    if (!usuario) {
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+
 </html>
