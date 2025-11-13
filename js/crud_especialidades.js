@@ -60,7 +60,7 @@ function actualizarEspecialidad(id, datosActualizados) {
         };
         guardarEspecialidades(especialidades);
         console.log("Especialidad actualizada correctamente:", especialidades[indice]);
-        
+
         mostrarEspecialidades();
         form.reset();
         form.querySelector("button[type='submit']").textContent = "Guardar Especialidad"
@@ -76,8 +76,8 @@ function editarEspecialidad(id) {
 
     if (especialidad) {
         document.getElementById("id").value = especialidad.id;
-        document.getElementById("nombre").value = especialidad.nombre;
-        document.getElementById("descripcion").value = especialidad.descripcion;
+        document.getElementById("nombre").value = especialidad.Nombre;
+        document.getElementById("nombre").focus();
         form.querySelector("button[type='submit']").textContent = "Guardar cambios"
 
     } else {
@@ -88,12 +88,10 @@ function editarEspecialidad(id) {
 
 function guardarCambios() {
     const id = document.getElementById("id").value.trim();
-    const nombre = document.getElementById("nombre").value.trim();
-    const descripcion = document.getElementById("descripcion").value.trim();
+    const Nombre = document.getElementById("nombre").value.trim();
 
     const datosActualizados = {
-        nombre,
-        descripcion,
+        Nombre,
 
     };
 
@@ -111,16 +109,14 @@ function crearEspecialidad(e) {
     console.log('Muestro en consola las especialidades antes de guardar el Nuevo', obtenerEspecialidades());
 
     const nombre = document.getElementById("nombre").value.trim();
-    const descripcion = document.getElementById("descripcion").value.trim();
 
-    if (!nombre || !descripcion) {
+    if (!nombre) {
         alert('Por favor completa los campos requeridos');
         return;
     }
 
     const nuevaEspecialidad = {
-        nombre: nombre,
-        descripcion: descripcion
+        Nombre: nombre,
     };
 
     agregarEspecialidad(nuevaEspecialidad);
@@ -159,14 +155,13 @@ function mostrarEspecialidades() {
 
         fila.innerHTML = `
             <td>${os.id}</td>
-            <td>${os.nombre}</td>
-            <td>${os.descripcion}</td>
+            <td>${os.Nombre}</td>
             <td> 
                 <button class="btn btn-danger btn-sm" onclick="eliminarEspecialidad(${os.id})">Eliminar</button>
                 <button class="btn btn-primary btn-sm" onclick="editarEspecialidad(${os.id})">Editar</button>
             </td>`
 
-    tablaEspecialidades.appendChild(fila)
+        tablaEspecialidades.appendChild(fila)
     })
 }
 

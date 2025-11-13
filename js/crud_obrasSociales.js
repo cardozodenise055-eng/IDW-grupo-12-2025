@@ -76,8 +76,10 @@ function editarObraSocial(id) {
 
     if (obraSocial) {
         document.getElementById("id").value = obraSocial.id;
-        document.getElementById("nombre").value = obraSocial.nombre;
-        document.getElementById("descripcion").value = obraSocial.descripcion;
+        document.getElementById("nombre").value = obraSocial.Nombre;
+        document.getElementById("nombre").focus();
+        document.getElementById("descripcion").value = obraSocial.Descripcion;
+
         form.querySelector("button[type='submit']").textContent = "Guardar cambios"
 
     } else {
@@ -88,13 +90,17 @@ function editarObraSocial(id) {
 
 function guardarCambios() {
     const id = document.getElementById("id").value.trim();
-    const nombre = document.getElementById("nombre").value.trim();
-    const descripcion = document.getElementById("descripcion").value.trim();
+    const Nombre = document.getElementById("nombre").value.trim();
+    const Descripcion = document.getElementById("descripcion").value.trim();
+
+    alert(`Guardando cambios...
+    ID: ${id}
+    Nombre: ${Nombre}
+    Descripcion: ${Descripcion}`);
 
     const datosActualizados = {
-        nombre,
-        descripcion,
-
+        Nombre,
+        Descripcion,
     };
 
     actualizarObraSocial(id, datosActualizados);
@@ -119,8 +125,8 @@ function crearObraSocial(e) {
     }
 
     const nuevaObraSocial = {
-        nombre: nombre,
-        descripcion: descripcion
+        Nombre: nombre,
+        Descripcion: descripcion
     };
 
     agregarObraSocial(nuevaObraSocial);
@@ -137,14 +143,16 @@ if (form) {
 function eliminarObraSocial(id) {
     console.log(id)
     const obrasSociales = obtenerObrasSociales();
-    const nuevasObrasSociales = obrasSociales.filter(o => o.id !== id);
+    const ObrasSocial_eliminar = obrasSociales.filter(o => o.id !== id);
 
-    if (nuevasObrasSociales.length === obrasSociales.length) {
+
+    if (ObrasSocial_eliminar.length == obrasSociales.length) {
         console.log("No se encontró una obra social con ese id.");
         return;
     }
 
-    guardarObrasSociales(nuevasObrasSociales);
+    alert(`Eliminando Obra Social con ID: ${id}`)
+    guardarObrasSociales(ObrasSocial_eliminar);
     console.log("Obra social eliminada correctamente.");
 
     mostrarObrasSociales();
@@ -159,9 +167,9 @@ function mostrarObrasSociales() {
 
         fila.innerHTML = `
             <td>${os.id}</td>
-            <td>${os.nombre}</td>
-            <td>${os.descripcion}</td>
-            <td> 
+            <td>${os.Nombre}</td>
+            <td>${os.Descripcion}</td>
+            <td>
                 <button class="btn btn-danger btn-sm" onclick="eliminarObraSocial(${os.id})">Eliminar</button>
                 <button class="btn btn-primary btn-sm" onclick="editarObraSocial(${os.id})">Editar</button>
             </td>`

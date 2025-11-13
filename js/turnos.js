@@ -9,12 +9,12 @@ const tablaTurnos = document.getElementById("tabla-turnos")
 
 function cargarMedicos() {
     if (medicos.length === 0) {
-            const option = document.createElement("option")
-            option.textContent = "No hay médicos disponibles"
-            option.disabled = true
-            selectMedico.appendChild(option)
-            return
-        }
+        const option = document.createElement("option")
+        option.textContent = "No hay médicos disponibles"
+        option.disabled = true
+        selectMedico.appendChild(option)
+        return
+    }
 
     medicos.forEach(medico => {
         const option = document.createElement("option")
@@ -33,7 +33,7 @@ function mostrarTurnos() {
 
         fila.innerHTML = `
             <td>${medico ? medico.nombre : " Médico no encontrado "}</td>
-            <td>${turno.fechaHora}</td>
+            <td>${turno.fechaHora.replace(/-/g, "/").replace("T", " ").concat("hs")}</td>
             <td>${turno.disponible ? "Sí" : "No"}</td>
             <td>
                 <button class="btn btn-danger btn-sm" onclick="eliminarTurno(${index})">Eliminar</button>
@@ -52,14 +52,14 @@ function eliminarTurno(index) {
 }
 
 function editarTurno(index) {
-  const turno = turnos[index]
+    const turno = turnos[index]
 
-  document.getElementById("medico").value = turno.medicoId
-  document.getElementById("fechaHora").value = turno.fechaHora
-  document.getElementById("disponible").checked = turno.disponible
+    document.getElementById("medico").value = turno.medicoId
+    document.getElementById("fechaHora").value = turno.fechaHora
+    document.getElementById("disponible").checked = turno.disponible
 
-  indiceEditando = index
-  formTurno.querySelector("button[type='submit']").textContent = "Guardar cambios"
+    indiceEditando = index
+    formTurno.querySelector("button[type='submit']").textContent = "Guardar cambios"
 }
 
 function guardarCambiosTurno() {
@@ -105,9 +105,9 @@ formTurno.addEventListener("submit", e => {
 
     const turnoDuplicado = turnos.some(t =>
         t.medicoId === nuevoTurno.medicoId && t.fechaHora === nuevoTurno.fechaHora
-        )
+    )
 
-        if (turnoDuplicado) {
+    if (turnoDuplicado) {
         alert("Este turno ya está registrado para ese médico en ese horario")
         return
     }
