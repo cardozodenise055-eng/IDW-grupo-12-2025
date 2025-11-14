@@ -35,7 +35,7 @@ const cargarReservas = () => {
 
     fila.innerHTML = `
           <td><strong>${reserva.documento}</strong></td>
-          <td>${reserva.Apellido_y_Nombre}</td>
+          <td>${reserva.apellidoNombre}</td>
           <td>${medico.nombre}</td>
           <td>${especialidad.Nombre}</td>
           <td>${formatearFecha(turno.fechaHora)}</td>
